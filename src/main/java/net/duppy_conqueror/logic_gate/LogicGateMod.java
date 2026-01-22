@@ -1,5 +1,7 @@
 package net.duppy_conqueror.logic_gate;
 
+import net.duppy_conqueror.logic_gate.block.ModBlocks;
+import net.duppy_conqueror.logic_gate.item.ModItemGroups;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -12,5 +14,7 @@ public class LogicGateMod implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Initializing mod: " + MOD_ID);
+		ModItemGroups.registerItemGroups();
+		ModBlocks.registerBlocks();
 	}
 }
