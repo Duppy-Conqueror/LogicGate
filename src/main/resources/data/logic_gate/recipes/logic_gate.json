@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "#": {
+      "item": "minecraft:redstone"
+    },
+    "I": {
+      "item": "minecraft:stone"
+    },
+    "X": {
+      "item": "minecraft:quartz"
+    }
+  },
+  "pattern": [
+    "I#I",
+    "#X#",
+    "I#I"
+  ],
+  "result": {
+    "item": "logic_gate:logic_gate"
+  },
+  "show_notification": true
+}
