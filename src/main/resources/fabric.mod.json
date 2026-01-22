@@ -18,9 +18,6 @@
 		"main": [
 			"net.duppy_conqueror.logic_gate.LogicGate"
 		],
-		"client": [
-			"net.duppy_conqueror.logic_gate.LogicGateClient"
-		],
 		"fabric-datagen": [
 			"net.duppy_conqueror.logic_gate.LogicGateDataGenerator"
 		]
