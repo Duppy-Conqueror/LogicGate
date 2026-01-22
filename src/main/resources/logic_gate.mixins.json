@@ -3,7 +3,7 @@
 	"package": "net.duppy_conqueror.logic_gate.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"ExampleMixin"
+		"RedstoneWireMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
