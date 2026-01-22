@@ -1,0 +1,274 @@
+{
+  "variants": {
+    "facing=east,mode=and,powered=false": {
+      "model": "logic_gate:block/logic_gate_and",
+      "y": 270
+    },
+    "facing=east,mode=and,powered=true": {
+      "model": "logic_gate:block/logic_gate_and_on",
+      "y": 270
+    },
+    "facing=east,mode=buffer,powered=false": {
+      "model": "logic_gate:block/logic_gate_buffer",
+      "y": 270
+    },
+    "facing=east,mode=buffer,powered=true": {
+      "model": "logic_gate:block/logic_gate_buffer_on",
+      "y": 270
+    },
+    "facing=east,mode=imply,powered=false": {
+      "model": "logic_gate:block/logic_gate_imply",
+      "y": 270
+    },
+    "facing=east,mode=imply,powered=true": {
+      "model": "logic_gate:block/logic_gate_imply_on",
+      "y": 270
+    },
+    "facing=east,mode=nand,powered=false": {
+      "model": "logic_gate:block/logic_gate_nand",
+      "y": 270
+    },
+    "facing=east,mode=nand,powered=true": {
+      "model": "logic_gate:block/logic_gate_nand_on",
+      "y": 270
+    },
+    "facing=east,mode=nimply,powered=false": {
+      "model": "logic_gate:block/logic_gate_nimply",
+      "y": 270
+    },
+    "facing=east,mode=nimply,powered=true": {
+      "model": "logic_gate:block/logic_gate_nimply_on",
+      "y": 270
+    },
+    "facing=east,mode=nor,powered=false": {
+      "model": "logic_gate:block/logic_gate_nor",
+      "y": 270
+    },
+    "facing=east,mode=nor,powered=true": {
+      "model": "logic_gate:block/logic_gate_nor_on",
+      "y": 270
+    },
+    "facing=east,mode=not,powered=false": {
+      "model": "logic_gate:block/logic_gate_not",
+      "y": 270
+    },
+    "facing=east,mode=not,powered=true": {
+      "model": "logic_gate:block/logic_gate_not_on",
+      "y": 270
+    },
+    "facing=east,mode=or,powered=false": {
+      "model": "logic_gate:block/logic_gate_or",
+      "y": 270
+    },
+    "facing=east,mode=or,powered=true": {
+      "model": "logic_gate:block/logic_gate_or_on",
+      "y": 270
+    },
+    "facing=east,mode=xor,powered=false": {
+      "model": "logic_gate:block/logic_gate_xor",
+      "y": 270
+    },
+    "facing=east,mode=xor,powered=true": {
+      "model": "logic_gate:block/logic_gate_xor_on",
+      "y": 270
+    },
+    "facing=north,mode=and,powered=false": {
+      "model": "logic_gate:block/logic_gate_and",
+      "y": 180
+    },
+    "facing=north,mode=and,powered=true": {
+      "model": "logic_gate:block/logic_gate_and_on",
+      "y": 180
+    },
+    "facing=north,mode=buffer,powered=false": {
+      "model": "logic_gate:block/logic_gate_buffer",
+      "y": 180
+    },
+    "facing=north,mode=buffer,powered=true": {
+      "model": "logic_gate:block/logic_gate_buffer_on",
+      "y": 180
+    },
+    "facing=north,mode=imply,powered=false": {
+      "model": "logic_gate:block/logic_gate_imply",
+      "y": 180
+    },
+    "facing=north,mode=imply,powered=true": {
+      "model": "logic_gate:block/logic_gate_imply_on",
+      "y": 180
+    },
+    "facing=north,mode=nand,powered=false": {
+      "model": "logic_gate:block/logic_gate_nand",
+      "y": 180
+    },
+    "facing=north,mode=nand,powered=true": {
+      "model": "logic_gate:block/logic_gate_nand_on",
+      "y": 180
+    },
+    "facing=north,mode=nimply,powered=false": {
+      "model": "logic_gate:block/logic_gate_nimply",
+      "y": 180
+    },
+    "facing=north,mode=nimply,powered=true": {
+      "model": "logic_gate:block/logic_gate_nimply_on",
+      "y": 180
+    },
+    "facing=north,mode=nor,powered=false": {
+      "model": "logic_gate:block/logic_gate_nor",
+      "y": 180
+    },
+    "facing=north,mode=nor,powered=true": {
+      "model": "logic_gate:block/logic_gate_nor_on",
+      "y": 180
+    },
+    "facing=north,mode=not,powered=false": {
+      "model": "logic_gate:block/logic_gate_not",
+      "y": 180
+    },
+    "facing=north,mode=not,powered=true": {
+      "model": "logic_gate:block/logic_gate_not_on",
+      "y": 180
+    },
+    "facing=north,mode=or,powered=false": {
+      "model": "logic_gate:block/logic_gate_or",
+      "y": 180
+    },
+    "facing=north,mode=or,powered=true": {
+      "model": "logic_gate:block/logic_gate_or_on",
+      "y": 180
+    },
+    "facing=north,mode=xor,powered=false": {
+      "model": "logic_gate:block/logic_gate_xor",
+      "y": 180
+    },
+    "facing=north,mode=xor,powered=true": {
+      "model": "logic_gate:block/logic_gate_xor_on",
+      "y": 180
+    },
+    "facing=south,mode=and,powered=false": {
+      "model": "logic_gate:block/logic_gate_and"
+    },
+    "facing=south,mode=and,powered=true": {
+      "model": "logic_gate:block/logic_gate_and_on"
+    },
+    "facing=south,mode=buffer,powered=false": {
+      "model": "logic_gate:block/logic_gate_buffer"
+    },
+    "facing=south,mode=buffer,powered=true": {
+      "model": "logic_gate:block/logic_gate_buffer_on"
+    },
+    "facing=south,mode=imply,powered=false": {
+      "model": "logic_gate:block/logic_gate_imply"
+    },
+    "facing=south,mode=imply,powered=true": {
+      "model": "logic_gate:block/logic_gate_imply_on"
+    },
+    "facing=south,mode=nand,powered=false": {
+      "model": "logic_gate:block/logic_gate_nand"
+    },
+    "facing=south,mode=nand,powered=true": {
+      "model": "logic_gate:block/logic_gate_nand_on"
+    },
+    "facing=south,mode=nimply,powered=false": {
+      "model": "logic_gate:block/logic_gate_nimply"
+    },
+    "facing=south,mode=nimply,powered=true": {
+      "model": "logic_gate:block/logic_gate_nimply_on"
+    },
+    "facing=south,mode=nor,powered=false": {
+      "model": "logic_gate:block/logic_gate_nor"
+    },
+    "facing=south,mode=nor,powered=true": {
+      "model": "logic_gate:block/logic_gate_nor_on"
+    },
+    "facing=south,mode=not,powered=false": {
+      "model": "logic_gate:block/logic_gate_not"
+    },
+    "facing=south,mode=not,powered=true": {
+      "model": "logic_gate:block/logic_gate_not_on"
+    },
+    "facing=south,mode=or,powered=false": {
+      "model": "logic_gate:block/logic_gate_or"
+    },
+    "facing=south,mode=or,powered=true": {
+      "model": "logic_gate:block/logic_gate_or_on"
+    },
+    "facing=south,mode=xor,powered=false": {
+      "model": "logic_gate:block/logic_gate_xor"
+    },
+    "facing=south,mode=xor,powered=true": {
+      "model": "logic_gate:block/logic_gate_xor_on"
+    },
+    "facing=west,mode=and,powered=false": {
+      "model": "logic_gate:block/logic_gate_and",
+      "y": 90
+    },
+    "facing=west,mode=and,powered=true": {
+      "model": "logic_gate:block/logic_gate_and_on",
+      "y": 90
+    },
+    "facing=west,mode=buffer,powered=false": {
+      "model": "logic_gate:block/logic_gate_buffer",
+      "y": 90
+    },
+    "facing=west,mode=buffer,powered=true": {
+      "model": "logic_gate:block/logic_gate_buffer_on",
+      "y": 90
+    },
+    "facing=west,mode=imply,powered=false": {
+      "model": "logic_gate:block/logic_gate_imply",
+      "y": 90
+    },
+    "facing=west,mode=imply,powered=true": {
+      "model": "logic_gate:block/logic_gate_imply_on",
+      "y": 90
+    },
+    "facing=west,mode=nand,powered=false": {
+      "model": "logic_gate:block/logic_gate_nand",
+      "y": 90
+    },
+    "facing=west,mode=nand,powered=true": {
+      "model": "logic_gate:block/logic_gate_nand_on",
+      "y": 90
+    },
+    "facing=west,mode=nimply,powered=false": {
+      "model": "logic_gate:block/logic_gate_nimply",
+      "y": 90
+    },
+    "facing=west,mode=nimply,powered=true": {
+      "model": "logic_gate:block/logic_gate_nimply_on",
+      "y": 90
+    },
+    "facing=west,mode=nor,powered=false": {
+      "model": "logic_gate:block/logic_gate_nor",
+      "y": 90
+    },
+    "facing=west,mode=nor,powered=true": {
+      "model": "logic_gate:block/logic_gate_nor_on",
+      "y": 90
+    },
+    "facing=west,mode=not,powered=false": {
+      "model": "logic_gate:block/logic_gate_not",
+      "y": 90
+    },
+    "facing=west,mode=not,powered=true": {
+      "model": "logic_gate:block/logic_gate_not_on",
+      "y": 90
+    },
+    "facing=west,mode=or,powered=false": {
+      "model": "logic_gate:block/logic_gate_or",
+      "y": 90
+    },
+    "facing=west,mode=or,powered=true": {
+      "model": "logic_gate:block/logic_gate_or_on",
+      "y": 90
+    },
+    "facing=west,mode=xor,powered=false": {
+      "model": "logic_gate:block/logic_gate_xor",
+      "y": 90
+    },
+    "facing=west,mode=xor,powered=true": {
+      "model": "logic_gate:block/logic_gate_xor_on",
+      "y": 90
+    }
+  }
+}
