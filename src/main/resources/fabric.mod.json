@@ -16,10 +16,10 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"net.duppy_conqueror.logic_gate.LogicGate"
+			"net.duppy_conqueror.logic_gate.LogicGateMod"
 		],
 		"fabric-datagen": [
-			"net.duppy_conqueror.logic_gate.LogicGateDataGenerator"
+			"net.duppy_conqueror.logic_gate.LogicGateModDataGenerator"
 		]
 	},
 	"mixins": [
