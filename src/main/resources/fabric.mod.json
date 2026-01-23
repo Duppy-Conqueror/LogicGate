@@ -1,17 +1,17 @@
 {
 	"schemaVersion": 1,
-	"id": "logic_gate",
-	"version": "${version}",
-	"name": "Logic Gate",
-	"description": "A mod that adds a simple logic gate as a redstone component",
+	"id": "${mod_id}",
+	"version": "${mod_version}",
+	"name": "${mod_name}",
+	"description": "${mod_description}",
 	"authors": [
-		"Duppy Conqueror"
+		"${mod_authors}"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "${mod_github}",
+		"issues": "${mod_issues}"
 	},
-	"license": "MIT",
+	"license": "${mod_license}",
 	"icon": "assets/logic_gate/icon.png",
 	"environment": "*",
 	"entrypoints": {
@@ -30,8 +30,5 @@
 		"minecraft": "~1.20",
 		"java": ">=17",
 		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
 	}
 }
