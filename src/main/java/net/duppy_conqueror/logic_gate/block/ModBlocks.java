@@ -1,7 +1,6 @@
 package net.duppy_conqueror.logic_gate.block;
 
 import net.duppy_conqueror.logic_gate.LogicGateMod;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.piston.PistonBehavior;
@@ -21,7 +20,7 @@ public class ModBlocks {
     }
 
     private static Item registerBlockItem(String name, Block block) {
-        return Registry.register(Registries.ITEM, new Identifier(LogicGateMod.MOD_ID, name), new BlockItem(block, new FabricItemSettings()));
+        return Registry.register(Registries.ITEM, new Identifier(LogicGateMod.MOD_ID, name), new BlockItem(block, new Item.Settings()));
     }
 
     public static void registerBlocks() {
