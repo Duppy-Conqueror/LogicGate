@@ -1,5 +1,6 @@
 package net.duppy_conqueror.logic_gate.block;
 
+import com.mojang.serialization.MapCodec;
 import net.duppy_conqueror.logic_gate.block.enums.LogicGateMode;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.WireConnection;
@@ -23,6 +24,8 @@ import net.minecraft.world.tick.TickPriority;
 import java.util.List;
 
 public class LogicGateBlock extends AbstractRedstoneGateBlock {
+    public static final MapCodec<LogicGateBlock> CODEC = createCodec(LogicGateBlock::new);
+
     public static final EnumProperty<LogicGateMode> MODE = EnumProperty.of("mode", LogicGateMode.class);
 
     public static final BooleanProperty BACK_POWERED = BooleanProperty.of("back_powered");
@@ -39,6 +42,11 @@ public class LogicGateBlock extends AbstractRedstoneGateBlock {
                 .with(LEFT_POWERED, false)
                 .with(RIGHT_POWERED, false)
         );
+    }
+
+    @Override
+    protected MapCodec<? extends AbstractRedstoneGateBlock> getCodec() {
+        return CODEC;
     }
 
     @Override
