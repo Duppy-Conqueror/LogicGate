@@ -3,7 +3,6 @@ package net.duppy_conqueror.logic_gate.block;
 import net.duppy_conqueror.logic_gate.block.enums.LogicGateMode;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.WireConnection;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -46,7 +45,7 @@ public class LogicGateBlock extends AbstractRedstoneGateBlock {
         if (!player.getAbilities().allowModifyWorld) {
             return ActionResult.PASS;
         } else {
-            state = state.with(MODE, LogicGateMode.cycle(state.get(MODE), Screen.hasShiftDown()));
+            state = state.with(MODE, LogicGateMode.cycle(state.get(MODE), player.isSneaking()));
             world.playSound(player, pos, SoundEvents.BLOCK_COMPARATOR_CLICK, SoundCategory.BLOCKS, 0.3F, 0.5F);
             world.setBlockState(pos, state, Block.NOTIFY_LISTENERS);
             this.updateOutputPowered(world, pos, state);
