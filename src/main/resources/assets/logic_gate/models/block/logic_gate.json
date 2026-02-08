@@ -1,0 +1,52 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "logic_gate:block/logic_gate",
+    "slab": "minecraft:block/smooth_stone",
+    "top_left": "logic_gate:block/logic_gate",
+    "top_right": "logic_gate:block/logic_gate",
+    "bottom_left": "logic_gate:block/logic_gate",
+    "bottom_right": "logic_gate:block/logic_gate"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 2, 16],
+      "faces": {
+        "down":  { "uv": [ 0,  0, 16, 16 ], "texture": "#slab", "cullface": "down" },
+        "north": { "uv": [ 0, 14, 16, 16 ], "texture": "#slab", "cullface": "north" },
+        "south": { "uv": [ 0, 14, 16, 16 ], "texture": "#slab", "cullface": "south" },
+        "west":  { "uv": [ 0, 14, 16, 16 ], "texture": "#slab", "cullface": "west" },
+        "east":  { "uv": [ 0, 14, 16, 16 ], "texture": "#slab", "cullface": "east" }
+      }
+    },
+    {
+      "from": [0, 0, 0],
+      "to": [3, 2, 3],
+      "faces": {
+        "up": { "uv": [ 0,  0, 3, 3], "texture": "#top_left"}
+      }
+    },
+    {
+      "from": [0, 0, 13],
+      "to": [3, 2, 16],
+      "faces": {
+        "up": { "uv": [ 0,  13, 3, 16], "texture": "#top_right"}
+      }
+    },
+    {
+      "from": [13, 0, 0],
+      "to": [16, 2, 3],
+      "faces": {
+        "up": { "uv": [ 13,  0, 16, 3], "texture": "#bottom_left"}
+      }
+    },
+    {
+      "from": [13, 0, 13],
+      "to": [16, 2, 16],
+      "faces": {
+        "up": { "uv": [13, 13, 16, 16], "texture": "#bottom_right"}
+      }
+    }
+  ]
+}
