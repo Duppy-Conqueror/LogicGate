@@ -1,0 +1,6 @@
+{
+  "parent": "logic_gate:block/template_logic_gate_mode",
+  "textures": {
+    "texture": "logic_gate:block/logic_gate_not"
+  }
+}
