@@ -1,0 +1,14 @@
+{
+  "textures": {
+    "texture": "#texture"
+  },
+  "elements": [
+    {
+      "from": [3, 0, 3],
+      "to": [13, 2, 13],
+      "faces": {
+        "up": {"uv": [3, 3, 13, 13], "texture": "#texture"}
+      }
+    }
+  ]
+}
