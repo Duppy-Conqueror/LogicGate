@@ -20,18 +20,33 @@ public class SetGateDelayCommand {
         LiteralArgumentBuilder<ServerCommandSource> argBuilder = literal("setLogicGateDelay").requires((ServerCommandSource source) -> source.hasPermissionLevel(2));
 
         for (LogicGateMode mode: LogicGateMode.values()) {
-            argBuilder = argBuilder.then(
-                literal(mode.asString()).then(argument("delay", IntegerArgumentType.integer(ModConfig.MIN_DELAY, ModConfig.MAX_DELAY)).executes(
-                    (CommandContext<ServerCommandSource> context) -> {
-                        final int newDelay = IntegerArgumentType.getInteger(context, "delay");
-                        ModConfig.setDelay(mode, newDelay);
-                        context.getSource().sendFeedback(() -> Text.translatable("logic_gate.command.setGateDelay.feedback.%s".formatted(mode.asString()), newDelay), true);
-                        return SINGLE_SUCCESS;
-                    }
-                ))
+            argBuilder = argBuilder.then(literal(mode.asString())
+                .then(
+                    argument("delay", IntegerArgumentType.integer(ModConfig.MIN_DELAY, ModConfig.MAX_DELAY)).executes(
+                        (CommandContext<ServerCommandSource> context) -> {
+                            executeCommand(context, mode, IntegerArgumentType.getInteger(context, "delay"));
+                            return SINGLE_SUCCESS;
+                        }
+                    )
+                )
+                .then(
+                    literal("default").executes(
+                        (CommandContext<ServerCommandSource> context) -> {
+                            executeCommand(context, mode, ModConfig.DEFAULT_DELAY);
+                            return SINGLE_SUCCESS;
+                        }
+                    )
+                )
             );
         }
 
         dispatcher.register(argBuilder);
+    }
+
+    private static final String commandFeedBackTemplateKey = "logic_gate.command.setGateDelay.feedback.%s";
+
+    private static void executeCommand(CommandContext<ServerCommandSource> context, LogicGateMode mode, int newDelay) {
+        ModConfig.setDelay(mode, newDelay);
+        context.getSource().sendFeedback(() -> Text.translatable(commandFeedBackTemplateKey.formatted(mode.asString()), newDelay), true);
     }
 }
