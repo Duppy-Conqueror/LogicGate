@@ -20,6 +20,9 @@
 		],
 		"fabric-datagen": [
 			"net.duppy_conqueror.logic_gate.LogicGateModDataGenerator"
+		],
+		"modmenu": [
+			"net.duppy_conqueror.logic_gate.integration.modmenu.ModMenuCompat"
 		]
 	},
 	"mixins": [
