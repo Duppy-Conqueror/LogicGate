@@ -17,6 +17,9 @@ public class ModConfig implements ConfigData {
     @ConfigEntry.Gui.Excluded()
     public static final int MAX_DELAY = 20;
 
+    @ConfigEntry.Gui.Excluded()
+    public static final int DEFAULT_DELAY = 2;
+
     @ConfigEntry.BoundedDiscrete(min = MIN_DELAY, max = MAX_DELAY)
     @ConfigEntry.Gui.Tooltip()
     private int bufferModeDelay = 2;
