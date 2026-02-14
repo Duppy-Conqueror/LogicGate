@@ -2,6 +2,7 @@ package net.duppy_conqueror.logic_gate.block;
 
 import com.mojang.serialization.MapCodec;
 import net.duppy_conqueror.logic_gate.block.enums.LogicGateMode;
+import net.duppy_conqueror.logic_gate.config.ModConfig;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.WireConnection;
 import net.minecraft.entity.player.PlayerEntity;
@@ -69,7 +70,7 @@ public class LogicGateBlock extends AbstractRedstoneGateBlock {
 
     @Override
     protected int getUpdateDelayInternal(BlockState state) {
-        return 2;
+        return ModConfig.getDelay(state.get(MODE));
     }
 
     @Override
