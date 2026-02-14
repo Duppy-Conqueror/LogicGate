@@ -1,4 +1,35 @@
 {
   "itemgroup.logic_gate": "邏輯閘",
-  "block.logic_gate.logic_gate": "邏輯閘"
+  "block.logic_gate.logic_gate": "邏輯閘",
+
+  "text.autoconfig.logic_gate.title": "邏輯閘選項",
+  "text.autoconfig.logic_gate.option.bufferModeDelay": "「是」模式延遲",
+  "text.autoconfig.logic_gate.option.notModeDelay": "「非」模式延遲",
+  "text.autoconfig.logic_gate.option.orModeDelay": "「或」模式延遲",
+  "text.autoconfig.logic_gate.option.andModeDelay": "「與」模式延遲",
+  "text.autoconfig.logic_gate.option.xorModeDelay": "「互斥或」模式延遲",
+  "text.autoconfig.logic_gate.option.norModeDelay": "「非或」模式延遲",
+  "text.autoconfig.logic_gate.option.nandModeDelay": "「非與」模式延遲",
+  "text.autoconfig.logic_gate.option.implyModeDelay": "「蘊含」模式延遲",
+  "text.autoconfig.logic_gate.option.nimplyModeDelay": "「非蘊含」模式延遲",
+
+  "text.autoconfig.logic_gate.option.bufferModeDelay.@Tooltip": "「是」閘的傳播延遲時間。預設值為 2 刻。",
+  "text.autoconfig.logic_gate.option.notModeDelay.@Tooltip": "「非」閘的傳播延遲時間。預設值為 2 刻。",
+  "text.autoconfig.logic_gate.option.orModeDelay.@Tooltip": "「或」閘的傳播延遲時間。預設值為 2 刻。",
+  "text.autoconfig.logic_gate.option.andModeDelay.@Tooltip": "「與」閘的傳播延遲時間。預設值為 2 刻。",
+  "text.autoconfig.logic_gate.option.xorModeDelay.@Tooltip": "「互斥或」閘的傳播延遲時間。預設值為 2 刻。",
+  "text.autoconfig.logic_gate.option.norModeDelay.@Tooltip": "「非或」閘的傳播延遲時間。預設值為 2 刻。",
+  "text.autoconfig.logic_gate.option.nandModeDelay.@Tooltip": "「非與」閘的傳播延遲時間。預設值為 2 刻。",
+  "text.autoconfig.logic_gate.option.implyModeDelay.@Tooltip": "「蘊含」閘的傳播延遲時間。預設值為 2 刻。",
+  "text.autoconfig.logic_gate.option.nimplyModeDelay.@Tooltip": "「非蘊含」閘的傳播延遲時間。預設值為 2 刻。",
+
+  "logic_gate.command.setGateDelay.feedback.buffer": "已更新「是」閘嘅傳播延遲時間至 %d 刻",
+  "logic_gate.command.setGateDelay.feedback.not": "已更新「非」閘嘅傳播延遲時間至 %d 刻",
+  "logic_gate.command.setGateDelay.feedback.or": "已更新「或」閘嘅傳播延遲時間至 %d 刻",
+  "logic_gate.command.setGateDelay.feedback.and": "已更新「與」閘嘅傳播延遲時間至 %d 刻",
+  "logic_gate.command.setGateDelay.feedback.xor": "已更新「互斥或」閘嘅傳播延遲時間至 %d 刻",
+  "logic_gate.command.setGateDelay.feedback.nor": "已更新「非或」閘嘅傳播延遲時間至 %d 刻",
+  "logic_gate.command.setGateDelay.feedback.nand": "已更新「非與」閘嘅傳播延遲時間至 %d 刻",
+  "logic_gate.command.setGateDelay.feedback.imply": "已更新「蘊含」閘嘅傳播延遲時間至 %d 刻",
+  "logic_gate.command.setGateDelay.feedback.nimply": "已更新「非蘊含」閘嘅傳播延遲時間至 %d 刻"
 }
