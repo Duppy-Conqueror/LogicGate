@@ -1,4 +1,35 @@
 {
   "itemgroup.logic_gate": "Logic Gate",
-  "block.logic_gate.logic_gate": "Logic Gate"
+  "block.logic_gate.logic_gate": "Logic Gate",
+
+  "text.autoconfig.logic_gate.title": "Logic Gate Options",
+  "text.autoconfig.logic_gate.option.bufferModeDelay": "BUFFER Mode Delay",
+  "text.autoconfig.logic_gate.option.notModeDelay": "NOT Mode Delay",
+  "text.autoconfig.logic_gate.option.orModeDelay": "OR Mode Delay",
+  "text.autoconfig.logic_gate.option.andModeDelay": "AND Mode Delay",
+  "text.autoconfig.logic_gate.option.xorModeDelay": "XOR Mode Delay",
+  "text.autoconfig.logic_gate.option.norModeDelay": "NOR Mode Delay",
+  "text.autoconfig.logic_gate.option.nandModeDelay": "NAND Mode Delay",
+  "text.autoconfig.logic_gate.option.implyModeDelay": "IMPLY Mode Delay",
+  "text.autoconfig.logic_gate.option.nimplyModeDelay": "NIMPLY Mode Delay",
+
+  "text.autoconfig.logic_gate.option.bufferModeDelay.@Tooltip": "Propagation delay for BUFFER gates. Default value: 2 ticks",
+  "text.autoconfig.logic_gate.option.notModeDelay.@Tooltip": "Propagation delay for NOT gates. Default value: 2 ticks",
+  "text.autoconfig.logic_gate.option.orModeDelay.@Tooltip": "Propagation delay for OR gates. Default value: 2 ticks",
+  "text.autoconfig.logic_gate.option.andModeDelay.@Tooltip": "Propagation delay for AND gates. Default value: 2 ticks",
+  "text.autoconfig.logic_gate.option.xorModeDelay.@Tooltip": "Propagation delay for XOR gates. Default value: 2 ticks",
+  "text.autoconfig.logic_gate.option.norModeDelay.@Tooltip": "Propagation delay for NOR gates. Default value: 2 ticks",
+  "text.autoconfig.logic_gate.option.nandModeDelay.@Tooltip": "Propagation delay for NAND gates. Default value: 2 ticks",
+  "text.autoconfig.logic_gate.option.implyModeDelay.@Tooltip": "Propagation delay for IMPLY gates. Default value: 2 ticks",
+  "text.autoconfig.logic_gate.option.nimplyModeDelay.@Tooltip": "Propagation delay for NIMPLY gates. Default value: 2 ticks",
+
+  "logic_gate.command.setGateDelay.feedback.buffer": "Updated BUFFER gate delay to %d tick(s)",
+  "logic_gate.command.setGateDelay.feedback.not": "Updated NOT gate delay to %d tick(s)",
+  "logic_gate.command.setGateDelay.feedback.or": "Updated OR gate delay to %d tick(s)",
+  "logic_gate.command.setGateDelay.feedback.and": "Updated AND gate delay to %d tick(s)",
+  "logic_gate.command.setGateDelay.feedback.xor": "Updated XOR gate delay to %d tick(s)",
+  "logic_gate.command.setGateDelay.feedback.nor": "Updated NOR gate delay to %d tick(s)",
+  "logic_gate.command.setGateDelay.feedback.nand": "Updated NAND gate delay to %d tick(s)",
+  "logic_gate.command.setGateDelay.feedback.imply": "Updated IMPLY gate delay to %d tick(s)",
+  "logic_gate.command.setGateDelay.feedback.nimply": "Updated NIMPLY gate delay to %d tick(s)"
 }
