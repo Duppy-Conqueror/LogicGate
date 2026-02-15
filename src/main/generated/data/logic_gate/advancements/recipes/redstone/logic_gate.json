@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:quartz"
-            ]
+            "items": "minecraft:quartz"
           }
         ]
       },
@@ -30,6 +28,5 @@
     "recipes": [
       "logic_gate:logic_gate"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }
