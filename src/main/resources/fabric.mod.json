@@ -34,7 +34,7 @@
 		"fabric-api": "*",
 		"cloth-config": ">=12.0.108"
 	},
-	"recommends": {
+	"suggests": {
 		"modmenu": ">=8.0.0"
 	}
 }
