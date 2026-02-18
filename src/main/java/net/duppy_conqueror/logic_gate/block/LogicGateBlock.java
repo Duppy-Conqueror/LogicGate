@@ -59,7 +59,7 @@ public class LogicGateBlock extends AbstractRedstoneGateBlock {
             world.playSound(player, pos, SoundEvents.BLOCK_COMPARATOR_CLICK, SoundCategory.BLOCKS, 0.3F, 0.5F);
             world.setBlockState(pos, state, Block.NOTIFY_LISTENERS);
             this.updateOutputPowered(world, pos, state);
-            return ActionResult.success(world.isClient);
+            return ActionResult.SUCCESS;
         }
     }
 
