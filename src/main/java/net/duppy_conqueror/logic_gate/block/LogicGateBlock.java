@@ -22,6 +22,8 @@ import net.minecraft.world.tick.TickPriority;
 
 import java.util.List;
 
+import static net.minecraft.state.property.Properties.HORIZONTAL_FACING;
+
 public class LogicGateBlock extends AbstractRedstoneGateBlock {
     public static final MapCodec<LogicGateBlock> CODEC = createCodec(LogicGateBlock::new);
 
@@ -34,7 +36,7 @@ public class LogicGateBlock extends AbstractRedstoneGateBlock {
     public LogicGateBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.stateManager.getDefaultState()
-                .with(FACING, Direction.NORTH)
+                .with(HORIZONTAL_FACING, Direction.NORTH)
                 .with(MODE, LogicGateMode.BUFFER)
                 .with(POWERED, false)
                 .with(BACK_POWERED, false)
@@ -84,7 +86,7 @@ public class LogicGateBlock extends AbstractRedstoneGateBlock {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING, MODE, POWERED, BACK_POWERED, LEFT_POWERED, RIGHT_POWERED);
+        builder.add(HORIZONTAL_FACING, MODE, POWERED, BACK_POWERED, LEFT_POWERED, RIGHT_POWERED);
     }
 
     private static final List<BooleanProperty> inputPowerProperties = List.of(BACK_POWERED, LEFT_POWERED, RIGHT_POWERED);
