@@ -1,15 +1,13 @@
 package net.duppy_conqueror.logic_gate.datagen;
 
-import net.duppy_conqueror.logic_gate.LogicGateMod;
 import net.duppy_conqueror.logic_gate.block.ModBlocks;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.server.recipe.RecipeExporter;
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.RecipeGenerator;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.Identifier;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -19,17 +17,23 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     }
 
     @Override
-    public void generate(RecipeExporter exporter) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, ModBlocks.LOGIC_GATE)
-                .pattern("I#I")
-                .pattern("#X#")
-                .pattern("I#I")
-                .input('I', Items.STONE)
-                .input('#', Items.REDSTONE)
-                .input('X', Items.QUARTZ)
-                .criterion(FabricRecipeProvider.hasItem(Items.QUARTZ), FabricRecipeProvider.conditionsFromItem(Items.QUARTZ))
-                .showNotification(true)
-                .offerTo(exporter, Identifier.of(LogicGateMod.MOD_ID, getRecipeName(ModBlocks.LOGIC_GATE)));
+    protected RecipeGenerator getRecipeGenerator(RegistryWrapper.WrapperLookup registryLookup, RecipeExporter exporter) {
+        return new RecipeGenerator(registryLookup, exporter) {
+            @Override
+            public void generate() {
+                createShaped(RecipeCategory.REDSTONE, ModBlocks.LOGIC_GATE)
+                    .pattern("I#I")
+                    .pattern("#X#")
+                    .pattern("I#I")
+                    .input('I', Items.STONE)
+                    .input('#', Items.REDSTONE)
+                    .input('X', Items.QUARTZ)
+                    .criterion(hasItem(Items.QUARTZ), conditionsFromItem(Items.QUARTZ))
+                    .showNotification(true)
+                    .offerTo(exporter);
+            }
+        };
+    }
 
     @Override
     public String getName() {
