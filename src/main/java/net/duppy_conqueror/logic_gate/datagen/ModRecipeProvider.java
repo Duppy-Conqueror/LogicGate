@@ -29,6 +29,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .input('X', Items.QUARTZ)
                 .criterion(FabricRecipeProvider.hasItem(Items.QUARTZ), FabricRecipeProvider.conditionsFromItem(Items.QUARTZ))
                 .showNotification(true)
-                .offerTo(exporter, new Identifier(LogicGateMod.MOD_ID, getRecipeName(ModBlocks.LOGIC_GATE)));
+                .offerTo(exporter, Identifier.of(LogicGateMod.MOD_ID, getRecipeName(ModBlocks.LOGIC_GATE)));
     }
 }

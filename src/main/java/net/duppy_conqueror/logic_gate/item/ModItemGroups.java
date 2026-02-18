@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
 
 public class ModItemGroups {
     public static final ItemGroup LOGIC_GATE_GROUP = Registry.register(Registries.ITEM_GROUP,
-        new Identifier(LogicGateMod.MOD_ID, "logic_gate"),
+        Identifier.of(LogicGateMod.MOD_ID, "logic_gate"),
         FabricItemGroup.builder().displayName(Text.translatable("itemgroup.logic_gate"))
             .icon(() -> new ItemStack(ModBlocks.LOGIC_GATE))
             .entries((displayContext, entries) -> {
