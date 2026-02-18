@@ -28,6 +28,11 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModBlocks.LOGIC_GATE.asItem(), Models.GENERATED);
     }
 
+    @Override
+    public String getName() {
+        return "ModModelProvider";
+    }
+
     private void generateLogicGateBlockStates(BlockStateModelGenerator blockStateModelGenerator) {
         MultipartBlockStateSupplier multipartBlockStateSupplier = MultipartBlockStateSupplier.create(ModBlocks.LOGIC_GATE);
 

@@ -16,4 +16,9 @@ public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
     public void generate() {
         addDrop(ModBlocks.LOGIC_GATE);
     }
+
+    @Override
+    public String getName() {
+        return "ModBlockLootTableProvider";
+    }
 }
