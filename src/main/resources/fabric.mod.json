@@ -32,9 +32,9 @@
 		"fabricloader": ">=0.16",
 		"minecraft": ">=${minecraft_min_version} <=${minecraft_max_version}",
 		"fabric-api": "*",
-		"cloth-config": ">=20.0.148"
+		"cloth-config": ">=21.11.150"
 	},
 	"suggests": {
-		"modmenu": ">=16.0.0"
+		"modmenu": ">=17.0.0"
 	}
 }
