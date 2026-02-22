@@ -8,6 +8,8 @@ import com.mojang.brigadier.context.CommandContext;
 import net.duppy_conqueror.logic_gate.block.enums.LogicGateMode;
 import net.duppy_conqueror.logic_gate.config.ModConfig;
 import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.command.permission.Permission;
+import net.minecraft.command.permission.PermissionLevel;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 
@@ -17,7 +19,8 @@ import static net.minecraft.server.command.CommandManager.*;
 
 public class SetGateDelayCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, RegistrationEnvironment environment) {
-        LiteralArgumentBuilder<ServerCommandSource> argBuilder = literal("setLogicGateDelay").requires((ServerCommandSource source) -> source.hasPermissionLevel(2));
+        LiteralArgumentBuilder<ServerCommandSource> argBuilder = literal("setLogicGateDelay")
+            .requires((ServerCommandSource source) -> source.getPermissions().hasPermission(new Permission.Level(PermissionLevel.GAMEMASTERS)));
 
         for (LogicGateMode mode: LogicGateMode.values()) {
             argBuilder = argBuilder.then(literal(mode.asString())
