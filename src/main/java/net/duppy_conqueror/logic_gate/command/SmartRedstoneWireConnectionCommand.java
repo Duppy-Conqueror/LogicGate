@@ -8,6 +8,8 @@ import com.mojang.brigadier.context.CommandContext;
 import net.duppy_conqueror.logic_gate.LogicGateMod;
 import net.duppy_conqueror.logic_gate.config.ModConfig;
 import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.command.permission.Permission;
+import net.minecraft.command.permission.PermissionLevel;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
@@ -39,7 +41,7 @@ public class SmartRedstoneWireConnectionCommand {
     private static LiteralArgumentBuilder<ServerCommandSource> buildSetCommand() {
         // /logic_gate smartRedstoneWireConnection set [true|false|default]
         return literal("set")
-            .requires(((ServerCommandSource source) -> source.hasPermissionLevel(2)))
+            .requires((ServerCommandSource source) -> source.getPermissions().hasPermission(new Permission.Level(PermissionLevel.GAMEMASTERS)))
             .then(argument("enabled", BoolArgumentType.bool())
                 .executes((CommandContext<ServerCommandSource> context) -> {
                     executeSetCommand(context, BoolArgumentType.getBool(context, "enabled"));

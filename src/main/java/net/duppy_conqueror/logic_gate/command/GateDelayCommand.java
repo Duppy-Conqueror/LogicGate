@@ -9,6 +9,8 @@ import net.duppy_conqueror.logic_gate.LogicGateMod;
 import net.duppy_conqueror.logic_gate.block.enums.LogicGateMode;
 import net.duppy_conqueror.logic_gate.config.ModConfig;
 import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.command.permission.Permission;
+import net.minecraft.command.permission.PermissionLevel;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 
@@ -43,7 +45,7 @@ public class GateDelayCommand {
     private static LiteralArgumentBuilder<ServerCommandSource> buildSetCommand() {
         // /logic_gate gateDelay set [buffer|not|or|and|xor|nor|nand|imply|nimply] [0-20|default]
         LiteralArgumentBuilder<ServerCommandSource> argBuilder = literal("set")
-            .requires((ServerCommandSource source) -> source.hasPermissionLevel(2));
+            .requires((ServerCommandSource source) -> source.getPermissions().hasPermission(new Permission.Level(PermissionLevel.GAMEMASTERS)));
         for (LogicGateMode mode: LogicGateMode.values()) {
             argBuilder = argBuilder.then(literal(mode.asString())
                 .then(argument("delay", IntegerArgumentType.integer(ModConfig.MIN_DELAY, ModConfig.MAX_DELAY))
