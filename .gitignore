@@ -38,3 +38,6 @@ hs_err_*.log
 replay_*.log
 *.hprof
 *.jfr
+
+# local jar files (in case sources of certain versions cannot be downloaded)
+/libs/
