@@ -41,7 +41,8 @@ dependencies {
 
 	modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_api_version}")
 	modCompileOnly("com.terraformersmc:modmenu:${project.modmenu_version}")
-	modCompileOnly("dev.isxander:yet-another-config-lib:${project.yacl_version}")
+//	modCompileOnly("dev.isxander:yet-another-config-lib:${project.yacl_version}")
+	modCompileOnly(files("libs/yet-another-config-lib-${project.yacl_version}.jar"))
 
 //	modLocalRuntime("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_api_version}")
 //	modLocalRuntime("com.terraformersmc:modmenu:${project.modmenu_version}")
