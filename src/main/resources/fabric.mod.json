@@ -30,11 +30,12 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.16",
-		"minecraft": "${minecraft_version}",
-		"fabric-api": "*",
-		"cloth-config": ">=13.0.112"
+		"minecraft": ">=${minecraft_min_version} <=${minecraft_max_version}",
+		"fabric-api": "*"
 	},
-	"suggests": {
-		"modmenu": ">=9.0.0"
-	}
+    "suggests": {
+      "cloth-config": "~13.0.112",
+      "modmenu": ">=9.0.0",
+      "yet_another_config_lib_v3": "~3.2.2"
+    }
 }
