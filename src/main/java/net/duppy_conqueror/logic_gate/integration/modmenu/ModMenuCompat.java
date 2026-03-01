@@ -20,7 +20,7 @@ public class ModMenuCompat implements ModMenuApi {
         } else if (CLOTH_CONFIG) {
             return (Screen parent) -> ClothConfigCompat.makeScreen(parent, ModConfig.CONFIG_HOLDER);
         } else {
-            return null;
+            return ModMenuApi.super.getModConfigScreenFactory();
         }
     }
 }
