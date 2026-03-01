@@ -31,10 +31,12 @@
 	"depends": {
 		"fabricloader": ">=0.16",
 		"minecraft": ">=${minecraft_min_version} <=${minecraft_max_version}",
-		"fabric-api": "*",
-		"cloth-config": ">=20.0.148"
+		"fabric-api": "*"
+
 	},
 	"suggests": {
-		"modmenu": ">=16.0.0"
+        "cloth-config": ">=20.0.148",
+		"modmenu": ">=16.0.0",
+        "yet_another_config_lib_v3": "~3.8.2"
 	}
 }
