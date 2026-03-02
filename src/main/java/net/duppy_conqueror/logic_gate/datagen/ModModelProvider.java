@@ -39,7 +39,7 @@ public class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerators generators) {
-        generators.createFlatItemModel(ModBlocks.LOGIC_GATE.asItem(), ModelTemplates.FLAT_ITEM);
+        generators.generateFlatItem(ModBlocks.LOGIC_GATE.asItem(), ModelTemplates.FLAT_ITEM);
     }
 
     @Override
