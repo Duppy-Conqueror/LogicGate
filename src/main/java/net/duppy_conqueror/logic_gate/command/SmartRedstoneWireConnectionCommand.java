@@ -7,21 +7,26 @@ import com.mojang.brigadier.context.CommandContext;
 
 import net.duppy_conqueror.logic_gate.LogicGateMod;
 import net.duppy_conqueror.logic_gate.config.ModConfig;
-import net.minecraft.command.CommandRegistryAccess;
-import net.minecraft.command.permission.Permission;
-import net.minecraft.command.permission.PermissionLevel;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.Text;
+import net.minecraft.commands.CommandBuildContext;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.permissions.PermissionCheck;
+import net.minecraft.server.permissions.Permissions;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
-
-import static net.minecraft.server.command.CommandManager.argument;
-import static net.minecraft.server.command.CommandManager.literal;
+import static net.minecraft.commands.Commands.argument;
+import static net.minecraft.commands.Commands.literal;
 
 public class SmartRedstoneWireConnectionCommand {
-    public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, CommandManager.RegistrationEnvironment environment) {
-        LiteralArgumentBuilder<ServerCommandSource> argBuilder = literal(LogicGateMod.MOD_ID)
+    public static final PermissionCheck PERMISSION_CHECK;
+
+    static {
+        PERMISSION_CHECK = new PermissionCheck.Require(Permissions.COMMANDS_GAMEMASTER);
+    }
+
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext, Commands.CommandSelection selection) {
+        LiteralArgumentBuilder<CommandSourceStack> argBuilder = literal(LogicGateMod.MOD_ID)
             .then(literal("smartRedstoneWireConnection")
                 .then(SmartRedstoneWireConnectionCommand.buildQueryCommand())
                 .then(SmartRedstoneWireConnectionCommand.buildSetCommand())
@@ -29,27 +34,27 @@ public class SmartRedstoneWireConnectionCommand {
         dispatcher.register(argBuilder);
     }
 
-    private static LiteralArgumentBuilder<ServerCommandSource> buildQueryCommand() {
+    private static LiteralArgumentBuilder<CommandSourceStack> buildQueryCommand() {
         // /logic_gate smartRedstoneWireConnection query
         return literal("query")
-            .executes((CommandContext<ServerCommandSource> context) -> {
+            .executes((CommandContext<CommandSourceStack> context) -> {
                 executeQueryCommand(context);
                 return SINGLE_SUCCESS;
             }
         );
     }
-    private static LiteralArgumentBuilder<ServerCommandSource> buildSetCommand() {
+    private static LiteralArgumentBuilder<CommandSourceStack> buildSetCommand() {
         // /logic_gate smartRedstoneWireConnection set [true|false|default]
         return literal("set")
-            .requires((ServerCommandSource source) -> source.getPermissions().hasPermission(new Permission.Level(PermissionLevel.GAMEMASTERS)))
+            .requires(Commands.hasPermission(PERMISSION_CHECK))
             .then(argument("enabled", BoolArgumentType.bool())
-                .executes((CommandContext<ServerCommandSource> context) -> {
+                .executes((CommandContext<CommandSourceStack> context) -> {
                     executeSetCommand(context, BoolArgumentType.getBool(context, "enabled"));
                     return SINGLE_SUCCESS;
                 })
             )
             .then(literal("default")
-                .executes((CommandContext<ServerCommandSource> context) -> {
+                .executes((CommandContext<CommandSourceStack> context) -> {
                     executeSetCommand(context, ModConfig.DEFAULT_SMART_REDSTONE_WIRE_CONNECTION_ENABLED);
                     return SINGLE_SUCCESS;
                 })
@@ -59,16 +64,16 @@ public class SmartRedstoneWireConnectionCommand {
     private static final String queryCommandFeedBackTemplateKey = "command." + LogicGateMod.MOD_ID + ".smartRedstoneWireConnection.query.feedback.%s";
     private static final String setCommandFeedBackTemplateKey =  "command." + LogicGateMod.MOD_ID + ".smartRedstoneWireConnection.set.feedback.%s";
 
-    private static void executeQueryCommand(CommandContext<ServerCommandSource> context) {
+    private static void executeQueryCommand(CommandContext<CommandSourceStack> context) {
         final boolean enabled = ModConfig.isSmartRedstoneConnectionEnabled();
-        context.getSource().sendFeedback(() -> Text.translatable(queryCommandFeedBackTemplateKey.formatted(enabled)), false);
+        context.getSource().sendSuccess(() -> Component.translatable(queryCommandFeedBackTemplateKey.formatted(enabled)), false);
     }
 
-    private static void executeSetCommand(CommandContext<ServerCommandSource> context, boolean newValue) {
+    private static void executeSetCommand(CommandContext<CommandSourceStack> context, boolean newValue) {
         if (newValue == ModConfig.isSmartRedstoneConnectionEnabled()) {
             return;
         }
         ModConfig.setSmartRedstoneWireConnection(newValue);
-        context.getSource().sendFeedback(() -> Text.translatable(setCommandFeedBackTemplateKey.formatted(newValue)), true);
+        context.getSource().sendSuccess(() -> Component.translatable(setCommandFeedBackTemplateKey.formatted(newValue)), true);
     }
 }

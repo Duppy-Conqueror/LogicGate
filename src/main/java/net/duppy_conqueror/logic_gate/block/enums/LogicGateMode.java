@@ -1,13 +1,14 @@
 package net.duppy_conqueror.logic_gate.block.enums;
 
-import net.minecraft.util.StringIdentifiable;
+import net.minecraft.util.StringRepresentable;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public enum LogicGateMode implements StringIdentifiable {
+public enum LogicGateMode implements StringRepresentable {
     BUFFER("buffer"),
     NOT("not"),
     OR("or"),
@@ -56,7 +57,7 @@ public enum LogicGateMode implements StringIdentifiable {
     }
 
     @Override
-    public String asString() {
+    public @NonNull String getSerializedName() {
         return this.name;
     }
 }

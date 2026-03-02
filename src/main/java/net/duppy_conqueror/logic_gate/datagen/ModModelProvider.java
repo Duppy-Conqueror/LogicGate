@@ -3,38 +3,43 @@ package net.duppy_conqueror.logic_gate.datagen;
 import net.duppy_conqueror.logic_gate.block.LogicGateBlock;
 import net.duppy_conqueror.logic_gate.block.ModBlocks;
 import net.duppy_conqueror.logic_gate.block.enums.LogicGateMode;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
-import net.minecraft.block.Block;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+
 import net.minecraft.client.data.*;
-import net.minecraft.client.render.model.json.ModelVariantOperator;
-import net.minecraft.client.render.model.json.MultipartModelCombinedCondition;
-import net.minecraft.client.render.model.json.MultipartModelCondition;
-import net.minecraft.client.render.model.json.WeightedVariant;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Direction;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.MultiVariant;
+import net.minecraft.client.data.models.blockstates.MultiPartGenerator;
+import net.minecraft.client.data.models.model.ModelLocationUtils;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.renderer.block.model.VariantMutator;
+import net.minecraft.client.renderer.block.model.multipart.*;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 import java.util.List;
 import java.util.Map;
 
-import static net.minecraft.client.data.BlockStateModelGenerator.*;
+import static net.minecraft.client.data.models.BlockModelGenerators.*;
 
 public class ModModelProvider extends FabricModelProvider {
-
-    public ModModelProvider(FabricDataOutput output) {
+    public ModModelProvider(FabricPackOutput output) {
         super(output);
     }
 
     @Override
-    public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-        this.generateLogicGateBlockStates(blockStateModelGenerator);
+    public void generateBlockStateModels(BlockModelGenerators generators) {
+        this.generateLogicGateBlockStates(generators);
     }
 
     @Override
-    public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-        itemModelGenerator.register(ModBlocks.LOGIC_GATE.asItem(), Models.GENERATED);
+    public void generateItemModels(ItemModelGenerators generators) {
+        generators.createFlatItemModel(ModBlocks.LOGIC_GATE.asItem(), ModelTemplates.FLAT_ITEM);
     }
 
     @Override
@@ -42,16 +47,16 @@ public class ModModelProvider extends FabricModelProvider {
         return "ModModelProvider";
     }
 
-    private void generateLogicGateBlockStates(BlockStateModelGenerator blockStateModelGenerator) {
+    private void generateLogicGateBlockStates(BlockModelGenerators generators) {
         Block block = ModBlocks.LOGIC_GATE;
 
-        MultipartBlockModelDefinitionCreator multipartBlockModelDefinitionCreator = MultipartBlockModelDefinitionCreator.create(block);
+        MultiPartGenerator multiPartGenerator = MultiPartGenerator.multiPart(block);
 
-        final Map<Direction, ModelVariantOperator> southDefaultHorizontalRotationMap = Map.of(
-            Direction.SOUTH, NO_OP,
-            Direction.WEST, ROTATE_Y_90,
-            Direction.NORTH, ROTATE_Y_180,
-            Direction.EAST, ROTATE_Y_270
+        final Map<Direction, VariantMutator> southDefaultHorizontalRotationMap = Map.of(
+            Direction.SOUTH, NOP,
+            Direction.WEST, Y_ROT_90,
+            Direction.NORTH, Y_ROT_180,
+            Direction.EAST, Y_ROT_270
         );
 
         final Map<BooleanProperty, String> poweredPropertySubtextMap = Map.of(
@@ -62,38 +67,38 @@ public class ModModelProvider extends FabricModelProvider {
         );
 
         // "facing" property
-        for (Map.Entry<Direction, ModelVariantOperator> directionRotationEntry: southDefaultHorizontalRotationMap.entrySet()) {
-            final MultipartModelCondition whenFacing = createMultipartConditionBuilder().put(Properties.HORIZONTAL_FACING, directionRotationEntry.getKey()).build();
-            final WeightedVariant applyFacing = createWeightedVariant(TextureMap.getId(ModBlocks.LOGIC_GATE)).apply(directionRotationEntry.getValue());
-            multipartBlockModelDefinitionCreator.with(whenFacing, applyFacing);
+        for (Map.Entry<Direction, VariantMutator> directionRotationEntry: southDefaultHorizontalRotationMap.entrySet()) {
+            final Condition whenFacing = condition().term(BlockStateProperties.HORIZONTAL_FACING, directionRotationEntry.getKey()).build();
+            final MultiVariant applyFacing = plainVariant(ModelLocationUtils.getModelLocation(ModBlocks.LOGIC_GATE)).with(directionRotationEntry.getValue());
+            multiPartGenerator.with(whenFacing, applyFacing);
 
             // "mode" property
             for (LogicGateMode mode: LogicGateMode.values()) {
-                final Identifier modelId = TextureMap.getSubId(ModBlocks.LOGIC_GATE, "_mode_" + mode.asString());
-                final MultipartModelCondition whenMode = createMultipartConditionBuilder().put(LogicGateBlock.MODE, mode).build();
-                final MultipartModelCombinedCondition whenAnd = new MultipartModelCombinedCondition(MultipartModelCombinedCondition.LogicalOperator.AND, List.of(whenFacing, whenMode));
-                final WeightedVariant applyAndMode = createWeightedVariant(modelId).apply(directionRotationEntry.getValue());
-                multipartBlockModelDefinitionCreator.with(whenAnd, applyAndMode);
+                final Identifier modelId = ModelLocationUtils.getModelLocation(ModBlocks.LOGIC_GATE, "_mode_" + mode.getSerializedName());
+                final Condition whenMode = condition().term(LogicGateBlock.MODE, mode).build();
+                final CombinedCondition whenAnd = new CombinedCondition(CombinedCondition.Operation.AND, List.of(whenFacing, whenMode));
+                final MultiVariant applyAndMode = plainVariant(modelId).with(directionRotationEntry.getValue());
+                multiPartGenerator.with(whenAnd, applyAndMode);
             }
 
             // "powered" properties for all IOs
             for (Map.Entry<BooleanProperty, String> poweredSubtextEntry: poweredPropertySubtextMap.entrySet()) {
                 // "=false"
-                final Identifier falseModelId = TextureMap.getSubId(ModBlocks.LOGIC_GATE, "_" + poweredSubtextEntry.getValue());
-                final MultipartModelCondition whenIoPoweredFalse = createMultipartConditionBuilder().put(poweredSubtextEntry.getKey(), false).build();
-                final MultipartModelCombinedCondition whenAndFalse = new MultipartModelCombinedCondition(MultipartModelCombinedCondition.LogicalOperator.AND, List.of(whenFacing, whenIoPoweredFalse));
-                final WeightedVariant applyAndFalse = createWeightedVariant(falseModelId).apply(directionRotationEntry.getValue());
-                multipartBlockModelDefinitionCreator.with(whenAndFalse, applyAndFalse);
+                final Identifier falseModelId = ModelLocationUtils.getModelLocation(ModBlocks.LOGIC_GATE, "_" + poweredSubtextEntry.getValue());
+                final Condition whenIoPoweredFalse = condition().term(poweredSubtextEntry.getKey(), false).build();
+                final CombinedCondition whenAndFalse = new CombinedCondition(CombinedCondition.Operation.AND, List.of(whenFacing, whenIoPoweredFalse));
+                final MultiVariant applyAndFalse = plainVariant(falseModelId).with(directionRotationEntry.getValue());
+                multiPartGenerator.with(whenAndFalse, applyAndFalse);
 
                 // "=true"
-                final Identifier trueModelId = TextureMap.getSubId(ModBlocks.LOGIC_GATE, "_" + poweredSubtextEntry.getValue() + "_powered");
-                final MultipartModelCondition whenIoPoweredTrue = createMultipartConditionBuilder().put(poweredSubtextEntry.getKey(), true).build();
-                final MultipartModelCombinedCondition whenAndTrue = new MultipartModelCombinedCondition(MultipartModelCombinedCondition.LogicalOperator.AND, List.of(whenFacing, whenIoPoweredTrue));
-                final WeightedVariant applyAndTrue = createWeightedVariant(trueModelId).apply(directionRotationEntry.getValue());
-                multipartBlockModelDefinitionCreator.with(whenAndTrue, applyAndTrue);
+                final Identifier trueModelId = ModelLocationUtils.getModelLocation(ModBlocks.LOGIC_GATE, "_" + poweredSubtextEntry.getValue() + "_powered");
+                final Condition whenIoPoweredTrue = condition().term(poweredSubtextEntry.getKey(), true).build();
+                final CombinedCondition whenAndTrue = new CombinedCondition(CombinedCondition.Operation.AND, List.of(whenFacing, whenIoPoweredTrue));
+                final MultiVariant applyAndTrue = plainVariant(trueModelId).with(directionRotationEntry.getValue());
+                multiPartGenerator.with(whenAndTrue, applyAndTrue);
             }
         }
 
-        blockStateModelGenerator.blockStateCollector.accept(multipartBlockModelDefinitionCreator);
+        generators.blockStateOutput.accept(multiPartGenerator);
     }
 }

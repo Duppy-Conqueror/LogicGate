@@ -2,103 +2,111 @@ package net.duppy_conqueror.logic_gate.block;
 
 import com.mojang.serialization.MapCodec;
 import net.duppy_conqueror.logic_gate.block.enums.LogicGateMode;
+//import net.duppy_conqueror.logic_gate.config.ModConfig;
 import net.duppy_conqueror.logic_gate.config.ModConfig;
-import net.minecraft.block.*;
-import net.minecraft.block.enums.WireConnection;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
-import net.minecraft.world.tick.TickPriority;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RedStoneWireBlock;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.RedstoneSide;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.DiodeBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.ticks.TickPriority;
 
 import java.util.List;
 
-import static net.minecraft.state.property.Properties.HORIZONTAL_FACING;
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
-public class LogicGateBlock extends AbstractRedstoneGateBlock {
-    public static final MapCodec<LogicGateBlock> CODEC = createCodec(LogicGateBlock::new);
+public class LogicGateBlock extends DiodeBlock {
+    public static final MapCodec<LogicGateBlock> CODEC = simpleCodec(LogicGateBlock::new);
 
-    public static final EnumProperty<LogicGateMode> MODE = EnumProperty.of("mode", LogicGateMode.class);
+    public static final EnumProperty<LogicGateMode> MODE = EnumProperty.create("mode", LogicGateMode.class);
 
-    public static final BooleanProperty BACK_POWERED = BooleanProperty.of("back_powered");
-    public static final BooleanProperty LEFT_POWERED = BooleanProperty.of("left_powered");
-    public static final BooleanProperty RIGHT_POWERED = BooleanProperty.of("right_powered");
+    public static final BooleanProperty BACK_POWERED = BooleanProperty.create("back_powered");
+    public static final BooleanProperty LEFT_POWERED = BooleanProperty.create("left_powered");
+    public static final BooleanProperty RIGHT_POWERED = BooleanProperty.create("right_powered");
 
-    public LogicGateBlock(Settings settings) {
-        super(settings);
-        this.setDefaultState(this.stateManager.getDefaultState()
-                .with(HORIZONTAL_FACING, Direction.NORTH)
-                .with(MODE, LogicGateMode.BUFFER)
-                .with(POWERED, false)
-                .with(BACK_POWERED, false)
-                .with(LEFT_POWERED, false)
-                .with(RIGHT_POWERED, false)
+    public LogicGateBlock(final BlockBehaviour.Properties properties) {
+        super(properties);
+        this.registerDefaultState(
+            this.stateDefinition.any()
+                .setValue(HORIZONTAL_FACING, Direction.NORTH)
+                .setValue(MODE, LogicGateMode.BUFFER)
+                .setValue(POWERED, false)
+                .setValue(BACK_POWERED, false)
+                .setValue(LEFT_POWERED, false)
+                .setValue(RIGHT_POWERED, false)
         );
     }
 
     @Override
-    protected MapCodec<? extends AbstractRedstoneGateBlock> getCodec() {
+    protected MapCodec<LogicGateBlock> codec() {
         return CODEC;
     }
 
     @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!player.getAbilities().allowModifyWorld) {
-            return ActionResult.PASS;
+    protected InteractionResult useWithoutItem(BlockState state, final Level level, final BlockPos pos, final Player player, final BlockHitResult hitResult) {
+        if (!player.getAbilities().mayBuild) {
+            return InteractionResult.PASS;
         } else {
-            state = state.with(MODE, LogicGateMode.cycle(state.get(MODE), player.isSneaking()));
-            world.playSound(player, pos, SoundEvents.BLOCK_COMPARATOR_CLICK, SoundCategory.BLOCKS, 0.3F, 0.5F);
-            world.setBlockState(pos, state, Block.NOTIFY_LISTENERS);
-            this.updateOutputPowered(world, pos, state);
-            return ActionResult.SUCCESS;
+            state = state.setValue(MODE, LogicGateMode.cycle(state.getValue(MODE), player.isCrouching()));
+            level.playSound(player, pos, SoundEvents.COMPARATOR_CLICK, SoundSource.BLOCKS, 0.3F, 0.5F);
+            level.setBlock(pos, state, Block.UPDATE_CLIENTS);
+            this.updateOutputPowered(level, pos, state);
+            return InteractionResult.SUCCESS;
         }
     }
 
     @Override
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        // Move super scheduledTick method to updateOutputPowered
-        this.updateOutputPowered(world, pos, state);
+    public void tick(final BlockState state, final ServerLevel level, final BlockPos pos, final RandomSource random) {
+        // Move super `tick` method to updateOutputPowered
+        this.updateOutputPowered(level, pos, state);
     }
 
     @Override
-    protected int getUpdateDelayInternal(BlockState state) {
-        return ModConfig.getDelay(state.get(MODE));
+    protected int getDelay(BlockState state) {
+        return ModConfig.getDelay(state.getValue(MODE));
     }
 
     @Override
-    protected boolean hasPower(World world, BlockPos pos, BlockState state) {
-        return this.getPower(world, pos, state) > 0;
+    protected boolean shouldTurnOn(final Level level, final BlockPos pos, final BlockState state) {
+        return this.computeOutput(level, pos, state);
     }
 
     @Override
-    protected int getPower(World world, BlockPos pos, BlockState state) {
-        return this.computeOutput(world, pos, state) ? 15 : 0;
+    protected int getOutputSignal(BlockGetter level, BlockPos pos, BlockState state) {
+        return state.getValue(POWERED) ? 15 : 0;
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(HORIZONTAL_FACING, MODE, POWERED, BACK_POWERED, LEFT_POWERED, RIGHT_POWERED);
+    protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING, MODE, POWERED, BACK_POWERED, LEFT_POWERED, RIGHT_POWERED);
     }
 
     private static final List<BooleanProperty> inputPowerProperties = List.of(BACK_POWERED, LEFT_POWERED, RIGHT_POWERED);
 
-    private boolean computeOutput(World world, BlockPos pos, BlockState state) {
-        this.updateInputPowered(world, pos, state);
-        state = world.getBlockState(pos);
-        final boolean backPowered = state.get(BACK_POWERED);
-        final boolean leftPowered = state.get(LEFT_POWERED);
-        final boolean rightPowered = state.get(RIGHT_POWERED);
+    private boolean computeOutput(final Level level, BlockPos pos, BlockState state) {
+        this.updateInputPowered(level, pos, state);
+        state = level.getBlockState(pos);
+        final boolean backPowered = state.getValue(BACK_POWERED);
+        final boolean leftPowered = state.getValue(LEFT_POWERED);
+        final boolean rightPowered = state.getValue(RIGHT_POWERED);
 
-        return switch (state.get(MODE)) {
+        return switch (state.getValue(MODE)) {
             case BUFFER -> backPowered;
             case NOT -> !backPowered;
             case OR -> leftPowered || rightPowered;
@@ -111,52 +119,52 @@ public class LogicGateBlock extends AbstractRedstoneGateBlock {
         };
     }
 
-    private void updateOutputPowered(World world, BlockPos pos, BlockState state) {
-        final boolean bl1 = state.get(POWERED);
-        final boolean bl2 = this.hasPower(world, pos, state);
+    private void updateOutputPowered(final Level level, final BlockPos pos, final BlockState state) {
+        final boolean bl1 = state.getValue(POWERED);
+        final boolean bl2 = this.shouldTurnOn(level, pos, state);
 
         if (bl1 != bl2) {
             if (bl1) {
-                world.setBlockState(pos, state.with(POWERED, false), Block.NOTIFY_LISTENERS);
+                level.setBlock(pos, state.setValue(POWERED, false), Block.UPDATE_CLIENTS);
             } else {
-                world.setBlockState(pos, state.with(POWERED, true), Block.NOTIFY_LISTENERS);
-                world.scheduleBlockTick(pos, this, this.getUpdateDelayInternal(state), TickPriority.VERY_HIGH);
+                level.setBlock(pos, state.setValue(POWERED, true), Block.UPDATE_CLIENTS);
+                level.scheduleTick(pos, this, this.getDelay(state), TickPriority.VERY_HIGH);
             }
         }
     }
 
-    private void updateInputPowered(World world, BlockPos pos, BlockState state) {
+    private void updateInputPowered(final Level level, final BlockPos pos, final BlockState state) {
         BlockState newState = state;
 
         for (BooleanProperty property: inputPowerProperties) {
-            Direction direction = state.get(FACING);
+            Direction direction = state.getValue(FACING);
             if (property.equals(LEFT_POWERED)) {
-                direction = direction.rotateYClockwise();
+                direction = direction.getClockWise();
             } else if (property.equals(RIGHT_POWERED)) {
-                direction = direction.rotateYCounterclockwise();
+                direction = direction.getCounterClockWise();
             }
-            final BlockPos blockPos = pos.offset(direction);
+            final BlockPos blockPos = pos.relative(direction);
 
-            final boolean isEmittingRedstonePower = world.isEmittingRedstonePower(blockPos, direction);
+            final boolean isEmittingRedstonePower = level.hasSignal(blockPos, direction);
             // If the block is emitting redstone power, return true
             if (isEmittingRedstonePower) {
-                newState = newState.with(property, true);
+                newState = newState.setValue(property, true);
             } else {
                 // Check if the block is a redstone wire, return false if not
-                final BlockState neighbourBlockState = world.getBlockState(blockPos);
-                if (neighbourBlockState.isOf(Blocks.REDSTONE_WIRE)) {
+                final BlockState neighbourBlockState = level.getBlockState(blockPos);
+                if (neighbourBlockState.is(Blocks.REDSTONE_WIRE)) {
                     // Get the property of the redstone wire connection that is in the direction towards the logic gate block
                     // The WireConnection property should have the value "side"
-                    final WireConnection wireConnection = neighbourBlockState.get(RedstoneWireBlock.DIRECTION_TO_WIRE_CONNECTION_PROPERTY.get(direction.getOpposite()));
-                    final boolean isPoweredByWire = wireConnection.equals(WireConnection.SIDE) && neighbourBlockState.get(RedstoneWireBlock.POWER) > 0;
+                    final RedstoneSide wireConnection = neighbourBlockState.getValue(RedStoneWireBlock.PROPERTY_BY_DIRECTION.get(direction.getOpposite()));
+                    final boolean isPoweredByWire = wireConnection.equals(RedstoneSide.SIDE) && neighbourBlockState.getValue(RedStoneWireBlock.POWER) > 0;
 
                     // If the redstone wire "connects" to the logic gate, check whether the redstone power is positive as well
-                    newState = newState.with(property, isPoweredByWire);
+                    newState = newState.setValue(property, isPoweredByWire);
                 } else {
-                    newState = newState.with(property, false);
+                    newState = newState.setValue(property, false);
                 }
             }
         }
-        world.setBlockState(pos, newState, Block.NOTIFY_LISTENERS);
+        level.setBlock(pos, newState, Block.UPDATE_CLIENTS);
     }
 }

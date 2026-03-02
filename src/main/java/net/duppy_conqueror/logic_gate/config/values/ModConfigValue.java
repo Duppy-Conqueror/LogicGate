@@ -1,8 +1,8 @@
 package net.duppy_conqueror.logic_gate.config.values;
 
 import net.duppy_conqueror.logic_gate.config.ModConfigEntry;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
-import net.minecraft.text.Text;
 
 import java.util.function.Supplier;
 
@@ -40,13 +40,13 @@ public abstract class ModConfigValue<T> extends ModConfigEntry implements Suppli
         this.descriptionKey = descriptionKey;
     }
 
-    public Text getTranslation() {
-        return Text.translatable(translationKey);
+    public Component getTranslation() {
+        return Component.translatable(this.translationKey);
     }
 
     @Nullable
-    public Text getDescription() {
-        return this.descriptionKey == null ? null : Text.translatable(this.descriptionKey);
+    public Component getDescription() {
+        return this.descriptionKey == null ? null : Component.translatable(this.descriptionKey);
     }
 
 }

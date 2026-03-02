@@ -8,19 +8,27 @@ import com.mojang.brigadier.context.CommandContext;
 import net.duppy_conqueror.logic_gate.LogicGateMod;
 import net.duppy_conqueror.logic_gate.block.enums.LogicGateMode;
 import net.duppy_conqueror.logic_gate.config.ModConfig;
-import net.minecraft.command.CommandRegistryAccess;
-import net.minecraft.command.permission.Permission;
-import net.minecraft.command.permission.PermissionLevel;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.Text;
+import net.minecraft.commands.CommandBuildContext;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.permissions.PermissionCheck;
+import net.minecraft.server.permissions.Permissions;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
-import static net.minecraft.server.command.CommandManager.*;
+import static net.minecraft.commands.Commands.argument;
+import static net.minecraft.commands.Commands.literal;
 
 
 public class GateDelayCommand {
-    public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, RegistrationEnvironment environment) {
-        LiteralArgumentBuilder<ServerCommandSource> argBuilder = literal(LogicGateMod.MOD_ID)
+    public static final PermissionCheck PERMISSION_CHECK;
+
+    static {
+        PERMISSION_CHECK = new PermissionCheck.Require(Permissions.COMMANDS_GAMEMASTER);
+    }
+
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext, Commands.CommandSelection selection) {
+        LiteralArgumentBuilder<CommandSourceStack> argBuilder = literal(LogicGateMod.MOD_ID)
             .then(literal("gateDelay")
                 .then(buildQueryCommand())
                 .then(buildSetCommand())
@@ -28,12 +36,12 @@ public class GateDelayCommand {
         dispatcher.register(argBuilder);
     }
 
-    private static LiteralArgumentBuilder<ServerCommandSource> buildQueryCommand() {
+    private static LiteralArgumentBuilder<CommandSourceStack> buildQueryCommand() {
         // /logic_gate gateDelay query [buffer|not|or|and|xor|nor|nand|imply|nimply]
-        LiteralArgumentBuilder<ServerCommandSource> argBuilder = literal("query");
+        LiteralArgumentBuilder<CommandSourceStack> argBuilder = literal("query");
         for (LogicGateMode mode: LogicGateMode.values()) {
-            argBuilder = argBuilder.then(literal(mode.asString())
-                .executes((CommandContext<ServerCommandSource> context) -> {
+            argBuilder = argBuilder.then(literal(mode.getSerializedName())
+                .executes((CommandContext<CommandSourceStack> context) -> {
                     executeQueryCommand(context, mode);
                     return SINGLE_SUCCESS;
                 })
@@ -42,20 +50,20 @@ public class GateDelayCommand {
         return argBuilder;
     }
 
-    private static LiteralArgumentBuilder<ServerCommandSource> buildSetCommand() {
+    private static LiteralArgumentBuilder<CommandSourceStack> buildSetCommand() {
         // /logic_gate gateDelay set [buffer|not|or|and|xor|nor|nand|imply|nimply] [0-20|default]
-        LiteralArgumentBuilder<ServerCommandSource> argBuilder = literal("set")
-            .requires((ServerCommandSource source) -> source.getPermissions().hasPermission(new Permission.Level(PermissionLevel.GAMEMASTERS)));
+        LiteralArgumentBuilder<CommandSourceStack> argBuilder = literal("set")
+            .requires(Commands.hasPermission(PERMISSION_CHECK));
         for (LogicGateMode mode: LogicGateMode.values()) {
-            argBuilder = argBuilder.then(literal(mode.asString())
+            argBuilder = argBuilder.then(literal(mode.getSerializedName())
                 .then(argument("delay", IntegerArgumentType.integer(ModConfig.MIN_DELAY, ModConfig.MAX_DELAY))
-                    .executes((CommandContext<ServerCommandSource> context) -> {
+                    .executes((CommandContext<CommandSourceStack> context) -> {
                             executeSetCommand(context, mode, IntegerArgumentType.getInteger(context, "delay"));
                             return SINGLE_SUCCESS;
                     })
                 )
                 .then(literal("default")
-                    .executes((CommandContext<ServerCommandSource> context) -> {
+                    .executes((CommandContext<CommandSourceStack> context) -> {
                         executeSetCommand(context, mode, ModConfig.DEFAULT_DELAY);
                         return SINGLE_SUCCESS;
                     })
@@ -68,16 +76,16 @@ public class GateDelayCommand {
     private static final String queryCommandFeedbackTemplateKey = "command." + LogicGateMod.MOD_ID + ".gateDelay.query.feedback.%s";
     private static final String setCommandFeedbackTemplateKey = "command." + LogicGateMod.MOD_ID + ".gateDelay.set.feedback.%s";
 
-    private static void executeQueryCommand(CommandContext<ServerCommandSource> context, LogicGateMode mode) {
+    private static void executeQueryCommand(CommandContext<CommandSourceStack> context, LogicGateMode mode) {
         int delay = ModConfig.getDelay(mode);
-        context.getSource().sendFeedback(() -> Text.translatable(queryCommandFeedbackTemplateKey.formatted(mode.asString()), delay), false);
+        context.getSource().sendSuccess(() -> Component.translatable(queryCommandFeedbackTemplateKey.formatted(mode.getSerializedName()), delay), false);
     }
 
-    private static void executeSetCommand(CommandContext<ServerCommandSource> context, LogicGateMode mode, int newDelay) {
+    private static void executeSetCommand(CommandContext<CommandSourceStack> context, LogicGateMode mode, int newDelay) {
         if (newDelay == ModConfig.getDelay(mode)) {
             return;
         }
         ModConfig.setDelay(mode, newDelay);
-        context.getSource().sendFeedback(() -> Text.translatable(setCommandFeedbackTemplateKey.formatted(mode.asString()), newDelay), true);
+        context.getSource().sendSuccess(() -> Component.translatable(setCommandFeedbackTemplateKey.formatted(mode.getSerializedName()), newDelay), true);
     }
 }

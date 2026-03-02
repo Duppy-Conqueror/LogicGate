@@ -1,17 +1,17 @@
 package net.duppy_conqueror.logic_gate.block;
 
 import net.duppy_conqueror.logic_gate.LogicGateMod;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.PushReaction;
 
 import java.util.function.Function;
 
@@ -21,7 +21,7 @@ public class ModBlocks {
     static {
         LOGIC_GATE = registerBlock("logic_gate",
             LogicGateBlock::new,
-            AbstractBlock.Settings.create().breakInstantly().sounds(BlockSoundGroup.WOOD).pistonBehavior(PistonBehavior.DESTROY),
+            BlockBehaviour.Properties.of().instabreak().sound(SoundType.STONE).pushReaction(PushReaction.DESTROY),
             true
         );
     }
@@ -30,14 +30,14 @@ public class ModBlocks {
         LogicGateMod.LOGGER.info("Registering blocks for " + LogicGateMod.MOD_ID);
     }
 
-    private static Block registerBlock(String name, Function<AbstractBlock.Settings, Block> blockFactory, AbstractBlock.Settings settings, boolean registerItem) {
-        Identifier blockId = Identifier.of(LogicGateMod.MOD_ID, name);
-        RegistryKey<Block> blockRegistryKey = RegistryKey.of(RegistryKeys.BLOCK, blockId);
-        Block block = blockFactory.apply(settings.registryKey(blockRegistryKey));
+    private static Block registerBlock(String name, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties properties, boolean registerItem) {
+        Identifier blockId = Identifier.fromNamespaceAndPath(LogicGateMod.MOD_ID, name);
+        ResourceKey<Block> blockResourceKey = ResourceKey.create(Registries.BLOCK, blockId);
+        Block block = blockFactory.apply(properties.setId(blockResourceKey));
         if (registerItem) {
-            RegistryKey<Item> itemRegistryKey = RegistryKey.of(RegistryKeys.ITEM, blockId);
-            Registry.register(Registries.ITEM, blockId, new BlockItem(block, new Item.Settings().useBlockPrefixedTranslationKey().registryKey(itemRegistryKey)));
+            ResourceKey<Item> itemResourceKey = ResourceKey.create(Registries.ITEM, blockId);
+            Registry.register(BuiltInRegistries.ITEM, blockId, new BlockItem(block, new Item.Properties().useBlockDescriptionPrefix().setId(itemResourceKey)));
         }
-        return Registry.register(Registries.BLOCK, blockId, block);
+        return Registry.register(BuiltInRegistries.BLOCK, blockId, block);
     }
 }

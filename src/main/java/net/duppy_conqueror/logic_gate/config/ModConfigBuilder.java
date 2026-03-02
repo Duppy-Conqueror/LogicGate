@@ -4,7 +4,7 @@ import net.duppy_conqueror.logic_gate.config.values.BooleanModConfigValue;
 import net.duppy_conqueror.logic_gate.config.values.ModConfigValue;
 import net.duppy_conqueror.logic_gate.config.values.IntegerModConfigValue;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +17,9 @@ public class ModConfigBuilder {
     public static final Logger LOGGER = LoggerFactory.getLogger("LogicGate Configs");
 
     public static final boolean YACL = FabricLoader.getInstance().isModLoaded("yet_another_config_lib_v3");
-    public static final boolean CLOTH_CONFIG = FabricLoader.getInstance().isModLoaded("cloth-config");
+
+//    public static final boolean CLOTH_CONFIG = FabricLoader.getInstance().isModLoaded("cloth-config");
+    public static final boolean CLOTH_CONFIG = false;
 
     private final Identifier id;
 
@@ -29,7 +31,7 @@ public class ModConfigBuilder {
     private String currentComment;
 
     private ModConfigBuilder(String modId) {
-        this.id = Identifier.of(modId, "config");
+        this.id = Identifier.fromNamespaceAndPath(modId, "config");
         this.mainCategory = new ModConfigSubCategory(this.getId().getNamespace());
         this.mainCategory.setTranslationKey("config.%s.title".formatted(modId));
         this.subCategoryDeque.push(mainCategory);
