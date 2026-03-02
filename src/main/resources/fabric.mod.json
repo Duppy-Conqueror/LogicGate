@@ -34,7 +34,6 @@
 		"fabric-api": "*"
 	},
 	"suggests": {
-        "cloth-config": ">=21.11.150",
 		"modmenu": ">=18.0.0",
         "yet_another_config_lib_v3": "~3.8.2"
 	}
