@@ -9,8 +9,8 @@ import net.duppy_conqueror.logic_gate.config.ModConfigHolder;
 import net.duppy_conqueror.logic_gate.config.ModConfigSubCategory;
 import net.duppy_conqueror.logic_gate.config.values.BooleanModConfigValue;
 import net.duppy_conqueror.logic_gate.config.values.IntegerModConfigValue;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 
 public class YACLCompat {
     public static Screen makeScreen(Screen parent, ModConfigHolder modConfigHolder) {
@@ -65,7 +65,7 @@ public class YACLCompat {
                     .range(icv.getMin(), icv.getMax())
                     .step(1)
                 );
-            Text descriptionText = icv.getDescription();
+            Component descriptionText = icv.getDescription();
             if (descriptionText != null) {
                 intOptionBuilder.description(OptionDescription.of(descriptionText));
             }
@@ -75,7 +75,7 @@ public class YACLCompat {
                 .name(bcv.getTranslation())
                 .binding(bcv.getDefaultValue(), bcv, bcv::set)
                 .controller(TickBoxControllerBuilder::create);
-            Text descriptionText = bcv.getDescription();
+            Component descriptionText = bcv.getDescription();
             if (descriptionText != null) {
                 boolOptionBuilder.description(OptionDescription.of(descriptionText));
             }
