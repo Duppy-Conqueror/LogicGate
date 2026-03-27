@@ -5,7 +5,7 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 import net.duppy_conqueror.logic_gate.config.ModConfig;
 
 // Uncomment the line below when Cloth Config is out
-//import net.duppy_conqueror.logic_gate.integration.cloth_config.ClothConfigCompat;
+import net.duppy_conqueror.logic_gate.integration.cloth_config.ClothConfigCompat;
 
 // Uncomment the line below when YACL is out
 import net.duppy_conqueror.logic_gate.integration.yacl.YACLCompat;
@@ -28,10 +28,10 @@ public class ModMenuCompat implements ModMenuApi {
 //            return ModMenuApi.super.getModConfigScreenFactory();
         } else if (CLOTH_CONFIG) {
             // Uncomment the line below when Cloth Config is out
-//            return (Screen parent) -> ClothConfigCompat.makeScreen(parent, ModConfig.CONFIG_HOLDER);
+            return (Screen parent) -> ClothConfigCompat.makeScreen(parent, ModConfig.CONFIG_HOLDER);
 
             // Comment the line below when Cloth Config is out
-            return ModMenuApi.super.getModConfigScreenFactory();
+//            return ModMenuApi.super.getModConfigScreenFactory();
         } else {
             return ModMenuApi.super.getModConfigScreenFactory();
         }

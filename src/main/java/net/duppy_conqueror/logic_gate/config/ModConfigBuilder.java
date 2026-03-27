@@ -18,8 +18,7 @@ public class ModConfigBuilder {
 
     public static final boolean YACL = FabricLoader.getInstance().isModLoaded("yet_another_config_lib_v3");
 
-//    public static final boolean CLOTH_CONFIG = FabricLoader.getInstance().isModLoaded("cloth-config");
-    public static final boolean CLOTH_CONFIG = false;
+    public static final boolean CLOTH_CONFIG = FabricLoader.getInstance().isModLoaded("cloth-config");
 
     private final Identifier id;
 
