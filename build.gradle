@@ -51,8 +51,6 @@ dependencies {
 processResources {
 	var replaceProperties = [
 		minecraft_version    : minecraft_version,
-		minecraft_min_version: minecraft_min_version,
-		minecraft_max_version: minecraft_max_version,
 		mod_id               : mod_id,
 		mod_name             : mod_name,
 		mod_version          : version,
