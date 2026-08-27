@@ -1,87 +1,124 @@
 package net.duppy_conqueror.logic_gate.integration.yacl;
 
-import dev.isxander.yacl3.api.*;
+import dev.isxander.yacl3.api.ConfigCategory;
+import dev.isxander.yacl3.api.Option;
+import dev.isxander.yacl3.api.OptionDescription;
+import dev.isxander.yacl3.api.YetAnotherConfigLib;
 import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
+import net.duppy_conqueror.logic_gate.config.ModConfig;
 
-import net.duppy_conqueror.logic_gate.config.ModConfigEntry;
-import net.duppy_conqueror.logic_gate.config.ModConfigHolder;
-import net.duppy_conqueror.logic_gate.config.ModConfigSubCategory;
-import net.duppy_conqueror.logic_gate.config.values.BooleanModConfigValue;
-import net.duppy_conqueror.logic_gate.config.values.IntegerModConfigValue;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
+import net.neoforged.fml.ModContainer;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+
 public class YACLCompat {
-    public static Screen makeScreen(Screen parent, ModConfigHolder modConfigHolder) {
-        modConfigHolder.loadConfig();
+    public static void register(ModContainer container) {
+        container.registerExtensionPoint(IConfigScreenFactory.class, (_, parent) -> makeScreen(parent));
+    }
 
+    public static Screen makeScreen(Screen parent) {
         YetAnotherConfigLib.Builder builder = YetAnotherConfigLib.createBuilder();
-        builder.title(modConfigHolder.getMainEntry().getTranslation());
-        builder.save(modConfigHolder::saveConfig);
+        builder.title(Component.translatable("logic_gate.configuration.title"));
+        builder.save(ModConfig.CONFIG_HOLDER::save);
 
-        for (ModConfigEntry configEntry: modConfigHolder.getMainEntry().getEntries()) {
-            if (!(configEntry instanceof ModConfigSubCategory subCategory)) {
-                continue;
-            }
+        ConfigCategory.Builder gateDelayCategory = ConfigCategory.createBuilder().name(Component.translatable("logic_gate.configuration.gateDelay"));
+        gateDelayCategory.option(
+            Option.<Integer>createBuilder().name(Component.translatable("logic_gate.configuration.bufferModeDelay"))
+                .description(OptionDescription.of(Component.translatable("logic_gate.configuration.bufferModeDelay.tooltip")))
+                .binding(ModConfig.DEFAULT_DELAY, ModConfig.BUFFER_MODE_DELAY, ModConfig.BUFFER_MODE_DELAY::set)
+                .controller(oi -> IntegerSliderControllerBuilder.create(oi)
+                    .range(ModConfig.MIN_DELAY, ModConfig.MAX_DELAY)
+                    .step(1)
+                ).build()
+        );
+        gateDelayCategory.option(
+            Option.<Integer>createBuilder().name(Component.translatable("logic_gate.configuration.notModeDelay"))
+                .description(OptionDescription.of(Component.translatable("logic_gate.configuration.notModeDelay.tooltip")))
+                .binding(ModConfig.DEFAULT_DELAY, ModConfig.NOT_MODE_DELAY, ModConfig.NOT_MODE_DELAY::set)
+                .controller(oi -> IntegerSliderControllerBuilder.create(oi)
+                    .range(ModConfig.MIN_DELAY, ModConfig.MAX_DELAY)
+                    .step(1)
+                ).build()
+        );
+        gateDelayCategory.option(
+            Option.<Integer>createBuilder().name(Component.translatable("logic_gate.configuration.orModeDelay"))
+                .description(OptionDescription.of(Component.translatable("logic_gate.configuration.orModeDelay.tooltip")))
+                .binding(ModConfig.DEFAULT_DELAY, ModConfig.OR_MODE_DELAY, ModConfig.OR_MODE_DELAY::set)
+                .controller(oi -> IntegerSliderControllerBuilder.create(oi)
+                    .range(ModConfig.MIN_DELAY, ModConfig.MAX_DELAY)
+                    .step(1)
+                ).build()
+        );
+        gateDelayCategory.option(
+            Option.<Integer>createBuilder().name(Component.translatable("logic_gate.configuration.andModeDelay"))
+                .description(OptionDescription.of(Component.translatable("logic_gate.configuration.andModeDelay.tooltip")))
+                .binding(ModConfig.DEFAULT_DELAY, ModConfig.AND_MODE_DELAY, ModConfig.AND_MODE_DELAY::set)
+                .controller(oi -> IntegerSliderControllerBuilder.create(oi)
+                    .range(ModConfig.MIN_DELAY, ModConfig.MAX_DELAY)
+                    .step(1)
+                ).build()
+        );
+        gateDelayCategory.option(
+            Option.<Integer>createBuilder().name(Component.translatable("logic_gate.configuration.xorModeDelay"))
+                .description(OptionDescription.of(Component.translatable("logic_gate.configuration.xorModeDelay.tooltip")))
+                .binding(ModConfig.DEFAULT_DELAY, ModConfig.XOR_MODE_DELAY, ModConfig.XOR_MODE_DELAY::set)
+                .controller(oi -> IntegerSliderControllerBuilder.create(oi)
+                    .range(ModConfig.MIN_DELAY, ModConfig.MAX_DELAY)
+                    .step(1)
+                ).build()
+        );
+        gateDelayCategory.option(
+            Option.<Integer>createBuilder().name(Component.translatable("logic_gate.configuration.norModeDelay"))
+                .description(OptionDescription.of(Component.translatable("logic_gate.configuration.norModeDelay.tooltip")))
+                .binding(ModConfig.DEFAULT_DELAY, ModConfig.NOR_MODE_DELAY, ModConfig.NOR_MODE_DELAY::set)
+                .controller(oi -> IntegerSliderControllerBuilder.create(oi)
+                    .range(ModConfig.MIN_DELAY, ModConfig.MAX_DELAY)
+                    .step(1)
+                ).build()
+        );
+        gateDelayCategory.option(
+            Option.<Integer>createBuilder().name(Component.translatable("logic_gate.configuration.nandModeDelay"))
+                .description(OptionDescription.of(Component.translatable("logic_gate.configuration.nandModeDelay.tooltip")))
+                .binding(ModConfig.DEFAULT_DELAY, ModConfig.NAND_MODE_DELAY, ModConfig.NAND_MODE_DELAY::set)
+                .controller(oi -> IntegerSliderControllerBuilder.create(oi)
+                    .range(ModConfig.MIN_DELAY, ModConfig.MAX_DELAY)
+                    .step(1)
+                ).build()
+        );
+        gateDelayCategory.option(
+            Option.<Integer>createBuilder().name(Component.translatable("logic_gate.configuration.implyModeDelay"))
+                .description(OptionDescription.of(Component.translatable("logic_gate.configuration.implyModeDelay.tooltip")))
+                .binding(ModConfig.DEFAULT_DELAY, ModConfig.IMPLY_MODE_DELAY, ModConfig.IMPLY_MODE_DELAY::set)
+                .controller(oi -> IntegerSliderControllerBuilder.create(oi)
+                    .range(ModConfig.MIN_DELAY, ModConfig.MAX_DELAY)
+                    .step(1)
+                ).build()
+        );
+        gateDelayCategory.option(
+            Option.<Integer>createBuilder().name(Component.translatable("logic_gate.configuration.nimplyModeDelay"))
+                .description(OptionDescription.of(Component.translatable("logic_gate.configuration.nimplyModeDelay.tooltip")))
+                .binding(ModConfig.DEFAULT_DELAY, ModConfig.NIMPLY_MODE_DELAY, ModConfig.NIMPLY_MODE_DELAY::set)
+                .controller(oi -> IntegerSliderControllerBuilder.create(oi)
+                    .range(ModConfig.MIN_DELAY, ModConfig.MAX_DELAY)
+                    .step(1)
+                ).build()
+        );
 
-            ConfigCategory.Builder mainCategory = ConfigCategory.createBuilder().name(subCategory.getTranslation());
+        ConfigCategory.Builder redstoneWireConnectionCategory = ConfigCategory.createBuilder().name(Component.translatable("logic_gate.configuration.redstoneWireConnection"));
+        redstoneWireConnectionCategory.option(
+            Option.<Boolean>createBuilder().name(Component.translatable("logic_gate.configuration.smartRedstoneWireConnection"))
+                .description(OptionDescription.of(Component.translatable("logic_gate.configuration.smartRedstoneWireConnection.tooltip")))
+                .binding(ModConfig.DEFAULT_SMART_REDSTONE_WIRE_CONNECTION_ENABLED, ModConfig.SMART_REDSTONE_WIRE_CONNECTION, ModConfig.SMART_REDSTONE_WIRE_CONNECTION::set)
+                .controller(TickBoxControllerBuilder::create)
+                .build()
+        );
 
-            for (ModConfigEntry innerConfigEntry: subCategory.getEntries()) {
-                if (innerConfigEntry instanceof ModConfigSubCategory innerSubCategory) {
-                    OptionGroup.Builder subCategoryBuilder = OptionGroup.createBuilder().name(innerSubCategory.getTranslation()).collapsed(true);
-                    YACLCompat.addEntriesRecursive(mainCategory, subCategoryBuilder, innerSubCategory);
-                    mainCategory.group(subCategoryBuilder.build());
-                } else {
-                    mainCategory.option(YACLCompat.buildEntry(innerConfigEntry));
-                }
-            }
-
-            builder.category(mainCategory.build());
-        }
+        builder.category(gateDelayCategory.build());
+        builder.category(redstoneWireConnectionCategory.build());
 
         return builder.build().generateScreen(parent);
-    }
-
-    private static void addEntriesRecursive(ConfigCategory.Builder builder, OptionGroup.Builder subCategoryBuilder, ModConfigSubCategory subCategory) {
-        for (ModConfigEntry configEntry: subCategory.getEntries()) {
-            if (configEntry instanceof ModConfigSubCategory subSubCategory) {
-//                OptionGroup.Builder subSubCategoryBuilder = OptionGroup.createBuilder().name(subSubCategory.getTranslation()).collapsed(true);
-//                YACLCompat.addEntriesRecursive(builder, subSubCategoryBuilder, subSubCategory);
-//                subCategoryBuilder.group(subSubCategoryBuilder.build());
-            } else {
-                subCategoryBuilder.option(YACLCompat.buildEntry(configEntry));
-            }
-        }
-    }
-
-    private static Option<?> buildEntry(ModConfigEntry configEntry) {
-
-        if (configEntry instanceof IntegerModConfigValue icv) {
-            Option.Builder<Integer> intOptionBuilder = Option.<Integer>createBuilder()
-                .name(icv.getTranslation())
-                .binding(icv.getDefaultValue(), icv, icv::set)
-                .controller(oi -> IntegerSliderControllerBuilder.create(oi)
-                    .range(icv.getMin(), icv.getMax())
-                    .step(1)
-                );
-            Component descriptionText = icv.getDescription();
-            if (descriptionText != null) {
-                intOptionBuilder.description(OptionDescription.of(descriptionText));
-            }
-            return intOptionBuilder.build();
-        } else if (configEntry instanceof BooleanModConfigValue bcv) {
-            Option.Builder<Boolean> boolOptionBuilder = Option.<Boolean>createBuilder()
-                .name(bcv.getTranslation())
-                .binding(bcv.getDefaultValue(), bcv, bcv::set)
-                .controller(TickBoxControllerBuilder::create);
-            Component descriptionText = bcv.getDescription();
-            if (descriptionText != null) {
-                boolOptionBuilder.description(OptionDescription.of(descriptionText));
-            }
-            return boolOptionBuilder.build();
-        } else {
-            throw new UnsupportedOperationException("Unknown entry: " + configEntry.getClass().getName());
-        }
     }
 }
