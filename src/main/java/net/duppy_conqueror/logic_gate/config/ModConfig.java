@@ -1,66 +1,66 @@
 package net.duppy_conqueror.logic_gate.config;
 
-import net.duppy_conqueror.logic_gate.LogicGateMod;
 import net.duppy_conqueror.logic_gate.block.enums.LogicGateMode;
-import net.duppy_conqueror.logic_gate.config.values.BooleanModConfigValue;
-import net.duppy_conqueror.logic_gate.config.values.IntegerModConfigValue;
+import net.neoforged.neoforge.common.ModConfigSpec;
+
+import java.util.List;
 
 public class ModConfig {
-    public static ModConfigHolder CONFIG_HOLDER;
+    public static ModConfigSpec CONFIG_HOLDER;
 
     public static final String CATEGORY_DELAY = "gateDelay";
-    public static IntegerModConfigValue BUFFER_MODE_DELAY;
-    public static IntegerModConfigValue NOT_MODE_DELAY;
-    public static IntegerModConfigValue OR_MODE_DELAY;
-    public static IntegerModConfigValue AND_MODE_DELAY;
-    public static IntegerModConfigValue XOR_MODE_DELAY;
-    public static IntegerModConfigValue NOR_MODE_DELAY;
-    public static IntegerModConfigValue NAND_MODE_DELAY;
-    public static IntegerModConfigValue IMPLY_MODE_DELAY;
-    public static IntegerModConfigValue NIMPLY_MODE_DELAY;
+    public static ModConfigSpec.IntValue BUFFER_MODE_DELAY;
+    public static ModConfigSpec.IntValue NOT_MODE_DELAY;
+    public static ModConfigSpec.IntValue OR_MODE_DELAY;
+    public static ModConfigSpec.IntValue AND_MODE_DELAY;
+    public static ModConfigSpec.IntValue XOR_MODE_DELAY;
+    public static ModConfigSpec.IntValue NOR_MODE_DELAY;
+    public static ModConfigSpec.IntValue NAND_MODE_DELAY;
+    public static ModConfigSpec.IntValue IMPLY_MODE_DELAY;
+    public static ModConfigSpec.IntValue NIMPLY_MODE_DELAY;
 
     public static final int MIN_DELAY = 0;
     public static final int MAX_DELAY = 20;
     public static final int DEFAULT_DELAY = 2;
 
     public static final String CATEGORY_CONNECT = "redstoneWireConnection";
-    public static BooleanModConfigValue SMART_REDSTONE_WIRE_CONNECTION;
+    public static ModConfigSpec.BooleanValue SMART_REDSTONE_WIRE_CONNECTION;
 
     public static final boolean DEFAULT_SMART_REDSTONE_WIRE_CONNECTION_ENABLED = false;
 
     static {
-        ModConfigBuilder builder = ModConfigBuilder.create(LogicGateMod.MOD_ID);
+        ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
-        builder.pushSubCategory(CATEGORY_DELAY);
+        builder.push(CATEGORY_DELAY);
+
         BUFFER_MODE_DELAY = builder.comment("Propagation delay for BUFFER gates.\nDefault value: 2 ticks")
-                .defineIntConfigValue("bufferModeDelay", DEFAULT_DELAY, MIN_DELAY, MAX_DELAY);
+                .defineInRange("bufferModeDelay", DEFAULT_DELAY, MIN_DELAY, MAX_DELAY);
         NOT_MODE_DELAY = builder.comment("Propagation delay for NOT gates.\nDefault value: 2 ticks")
-                .defineIntConfigValue("notModeDelay", DEFAULT_DELAY, MIN_DELAY, MAX_DELAY);
+                .defineInRange("notModeDelay", DEFAULT_DELAY, MIN_DELAY, MAX_DELAY);
         OR_MODE_DELAY = builder.comment("Propagation delay for OR gates.\nDefault value: 2 ticks")
-                .defineIntConfigValue("orModeDelay", DEFAULT_DELAY, MIN_DELAY, MAX_DELAY);
+                .defineInRange("orModeDelay", DEFAULT_DELAY, MIN_DELAY, MAX_DELAY);
         AND_MODE_DELAY = builder.comment("Propagation delay for AND gates.\nDefault value: 2 ticks")
-                .defineIntConfigValue("andModeDelay", DEFAULT_DELAY, MIN_DELAY, MAX_DELAY);
+                .defineInRange("andModeDelay", DEFAULT_DELAY, MIN_DELAY, MAX_DELAY);
         XOR_MODE_DELAY = builder.comment("Propagation delay for XOR gates.\nDefault value: 2 ticks")
-                .defineIntConfigValue("xorModeDelay", DEFAULT_DELAY, MIN_DELAY, MAX_DELAY);
+                .defineInRange("xorModeDelay", DEFAULT_DELAY, MIN_DELAY, MAX_DELAY);
         NOR_MODE_DELAY = builder.comment("Propagation delay for NOR gates.\nDefault value: 2 ticks")
-                .defineIntConfigValue("norModeDelay", DEFAULT_DELAY, MIN_DELAY, MAX_DELAY);
+                .defineInRange("norModeDelay", DEFAULT_DELAY, MIN_DELAY, MAX_DELAY);
         NAND_MODE_DELAY = builder.comment("Propagation delay for NAND gates.\nDefault value: 2 ticks")
-                .defineIntConfigValue("nandModeDelay", DEFAULT_DELAY, MIN_DELAY, MAX_DELAY);
+                .defineInRange("nandModeDelay", DEFAULT_DELAY, MIN_DELAY, MAX_DELAY);
         IMPLY_MODE_DELAY = builder.comment("Propagation delay for IMPLY gates.\nDefault value: 2 ticks")
-                .defineIntConfigValue("implyModeDelay", DEFAULT_DELAY, MIN_DELAY, MAX_DELAY);
+                .defineInRange("implyModeDelay", DEFAULT_DELAY, MIN_DELAY, MAX_DELAY);
         NIMPLY_MODE_DELAY = builder.comment("Propagation delay for NIMPLY gates.\nDefault value: 2 ticks")
-                .defineIntConfigValue("nimplyModeDelay", DEFAULT_DELAY, MIN_DELAY, MAX_DELAY);
-        builder.popSubCategory();
+                .defineInRange("nimplyModeDelay", DEFAULT_DELAY, MIN_DELAY, MAX_DELAY);
+        builder.pop();
 
-        builder.pushSubCategory(CATEGORY_CONNECT);
+        builder.push(CATEGORY_CONNECT);
         SMART_REDSTONE_WIRE_CONNECTION = builder.comment("If enabled, redstone wires will only automatically connect to input sides used by the current mode.\n" +
                         "For instance, redstone wires will only automatically connect to the back input side when the logic gate is in BUFFER mode, not the left and right input sides.\n" +
                         "Note: Existing redstone wires need to receive a block update after changing this setting.")
-                .defineBoolConfigValue("smartRedstoneWireConnection", DEFAULT_SMART_REDSTONE_WIRE_CONNECTION_ENABLED);
-        builder.popSubCategory();
+                .define("smartRedstoneWireConnection", DEFAULT_SMART_REDSTONE_WIRE_CONNECTION_ENABLED);
+        builder.pop();
 
         CONFIG_HOLDER = builder.build();
-        CONFIG_HOLDER.loadConfig();
     }
 
     public static int getDelay(LogicGateMode mode) {
@@ -92,13 +92,11 @@ public class ModConfig {
             case NAND -> NAND_MODE_DELAY.set(newDelay);
             case IMPLY -> IMPLY_MODE_DELAY.set(newDelay);
             case NIMPLY -> NIMPLY_MODE_DELAY.set(newDelay);
-        };
-        CONFIG_HOLDER.saveConfig();
+        }
+        CONFIG_HOLDER.save();
     }
 
     public static void setSmartRedstoneWireConnection(boolean b) {
         SMART_REDSTONE_WIRE_CONNECTION.set(b);
     }
-
-    public static void init() {}
 }
