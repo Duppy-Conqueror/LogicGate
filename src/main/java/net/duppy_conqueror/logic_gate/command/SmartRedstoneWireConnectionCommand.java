@@ -5,7 +5,7 @@ import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
-import net.duppy_conqueror.logic_gate.LogicGateMod;
+import net.duppy_conqueror.logic_gate.LogicGate;
 import net.duppy_conqueror.logic_gate.config.ModConfig;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
@@ -26,7 +26,7 @@ public class SmartRedstoneWireConnectionCommand {
     }
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext, Commands.CommandSelection selection) {
-        LiteralArgumentBuilder<CommandSourceStack> argBuilder = literal(LogicGateMod.MOD_ID)
+        LiteralArgumentBuilder<CommandSourceStack> argBuilder = literal(LogicGate.MOD_ID)
             .then(literal("smartRedstoneWireConnection")
                 .then(SmartRedstoneWireConnectionCommand.buildQueryCommand())
                 .then(SmartRedstoneWireConnectionCommand.buildSetCommand())
@@ -61,8 +61,8 @@ public class SmartRedstoneWireConnectionCommand {
             );
     }
 
-    private static final String queryCommandFeedBackTemplateKey = "command." + LogicGateMod.MOD_ID + ".smartRedstoneWireConnection.query.feedback.%s";
-    private static final String setCommandFeedBackTemplateKey =  "command." + LogicGateMod.MOD_ID + ".smartRedstoneWireConnection.set.feedback.%s";
+    private static final String queryCommandFeedBackTemplateKey = "command." + LogicGate.MOD_ID + ".smartRedstoneWireConnection.query.feedback.%s";
+    private static final String setCommandFeedBackTemplateKey =  "command." + LogicGate.MOD_ID + ".smartRedstoneWireConnection.set.feedback.%s";
 
     private static void executeQueryCommand(CommandContext<CommandSourceStack> context) {
         final boolean enabled = ModConfig.isSmartRedstoneConnectionEnabled();

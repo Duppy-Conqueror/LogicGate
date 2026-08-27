@@ -5,7 +5,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import com.mojang.brigadier.context.CommandContext;
-import net.duppy_conqueror.logic_gate.LogicGateMod;
+import net.duppy_conqueror.logic_gate.LogicGate;
 import net.duppy_conqueror.logic_gate.block.enums.LogicGateMode;
 import net.duppy_conqueror.logic_gate.config.ModConfig;
 import net.minecraft.commands.CommandBuildContext;
@@ -28,7 +28,7 @@ public class GateDelayCommand {
     }
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext, Commands.CommandSelection selection) {
-        LiteralArgumentBuilder<CommandSourceStack> argBuilder = literal(LogicGateMod.MOD_ID)
+        LiteralArgumentBuilder<CommandSourceStack> argBuilder = literal(LogicGate.MOD_ID)
             .then(literal("gateDelay")
                 .then(buildQueryCommand())
                 .then(buildSetCommand())
@@ -73,8 +73,8 @@ public class GateDelayCommand {
         return argBuilder;
     }
 
-    private static final String queryCommandFeedbackTemplateKey = "command." + LogicGateMod.MOD_ID + ".gateDelay.query.feedback.%s";
-    private static final String setCommandFeedbackTemplateKey = "command." + LogicGateMod.MOD_ID + ".gateDelay.set.feedback.%s";
+    private static final String queryCommandFeedbackTemplateKey = "command." + LogicGate.MOD_ID + ".gateDelay.query.feedback.%s";
+    private static final String setCommandFeedbackTemplateKey = "command." + LogicGate.MOD_ID + ".gateDelay.set.feedback.%s";
 
     private static void executeQueryCommand(CommandContext<CommandSourceStack> context, LogicGateMode mode) {
         int delay = ModConfig.getDelay(mode);
