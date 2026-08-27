@@ -28,9 +28,10 @@ bin/
 
 *.DS_Store
 
-# fabric
+# neoforge
 
 run/
+/src/generated/resources/.cache/
 
 # java
 
