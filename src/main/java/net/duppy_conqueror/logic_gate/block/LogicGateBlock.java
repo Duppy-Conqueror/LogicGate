@@ -2,8 +2,8 @@ package net.duppy_conqueror.logic_gate.block;
 
 import com.mojang.serialization.MapCodec;
 import net.duppy_conqueror.logic_gate.block.enums.LogicGateMode;
-//import net.duppy_conqueror.logic_gate.config.ModConfig;
 import net.duppy_conqueror.logic_gate.config.ModConfig;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.core.BlockPos;
@@ -166,5 +166,40 @@ public class LogicGateBlock extends DiodeBlock {
             }
         }
         level.setBlock(pos, newState, Block.UPDATE_CLIENTS);
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        // Direction from the center towards the back input
+        final Direction direction = state.getValue(FACING);
+
+        // Based on block center
+        final double x = pos.getX() + 0.5;
+        final double z = pos.getZ() + 0.5;
+
+        // Particle y-level offset: [0.2, 0.4]
+        final double y = pos.getY() + 0.3 + (random.nextDouble() - 0.5) * 0.2;
+        double epsilon = (random.nextDouble() - 0.5) / 16.0;
+
+        if (state.getValue(POWERED) && random.nextBoolean()) {
+            double xo = 0.25 * direction.getOpposite().getStepX() + epsilon;
+            double zo = 0.25 * direction.getOpposite().getStepZ() + epsilon;
+            level.addParticle(DustParticleOptions.REDSTONE, x + xo, y, z + zo, 0.0, 0.0, 0.0);
+        }
+        if (state.getValue(BACK_POWERED) && random.nextBoolean()) {
+            double xo = 0.25 * direction.getStepX() + epsilon;
+            double zo = 0.25 * direction.getStepZ() + epsilon;
+            level.addParticle(DustParticleOptions.REDSTONE, x + xo, y, z + zo, 0.0, 0.0, 0.0);
+        }
+        if (state.getValue(LEFT_POWERED) && random.nextBoolean()) {
+            double xo = 0.25 * direction.getClockWise().getStepX() + epsilon;
+            double zo = 0.25 * direction.getClockWise().getStepZ() + epsilon;
+            level.addParticle(DustParticleOptions.REDSTONE, x + xo, y, z + zo, 0.0, 0.0, 0.0);
+        }
+        if (state.getValue(RIGHT_POWERED) && random.nextBoolean()) {
+            double xo = 0.25 * direction.getCounterClockWise().getStepX() + epsilon;
+            double zo = 0.25 * direction.getCounterClockWise().getStepZ() + epsilon;
+            level.addParticle(DustParticleOptions.REDSTONE, x + xo, y, z + zo, 0.0, 0.0, 0.0);
+        }
     }
 }
