@@ -12,8 +12,8 @@ import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.permissions.PermissionCheck;
-import net.minecraft.server.permissions.Permissions;
+
+import java.util.function.Predicate;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 import static net.minecraft.commands.Commands.argument;
@@ -21,10 +21,10 @@ import static net.minecraft.commands.Commands.literal;
 
 
 public class GateDelayCommand {
-    public static final PermissionCheck PERMISSION_CHECK;
+    public static final Predicate<CommandSourceStack> PERMISSION_CHECK;
 
     static {
-        PERMISSION_CHECK = new PermissionCheck.Require(Permissions.COMMANDS_GAMEMASTER);
+        PERMISSION_CHECK = (commandSourceStack) -> commandSourceStack.hasPermission(2);
     }
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext, Commands.CommandSelection selection) {
@@ -53,7 +53,7 @@ public class GateDelayCommand {
     private static LiteralArgumentBuilder<CommandSourceStack> buildSetCommand() {
         // /logic_gate gateDelay set [buffer|not|or|and|xor|nor|nand|imply|nimply] [0-20|default]
         LiteralArgumentBuilder<CommandSourceStack> argBuilder = literal("set")
-            .requires(Commands.hasPermission(PERMISSION_CHECK));
+            .requires(PERMISSION_CHECK);
         for (LogicGateMode mode: LogicGateMode.values()) {
             argBuilder = argBuilder.then(literal(mode.getSerializedName())
                 .then(argument("delay", IntegerArgumentType.integer(ModConfig.MIN_DELAY, ModConfig.MAX_DELAY))

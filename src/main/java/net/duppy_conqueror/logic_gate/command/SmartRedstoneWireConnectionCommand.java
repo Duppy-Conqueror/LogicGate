@@ -11,18 +11,18 @@ import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.permissions.PermissionCheck;
-import net.minecraft.server.permissions.Permissions;
+
+import java.util.function.Predicate;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
 
 public class SmartRedstoneWireConnectionCommand {
-    public static final PermissionCheck PERMISSION_CHECK;
+    public static final Predicate<CommandSourceStack> PERMISSION_CHECK;
 
     static {
-        PERMISSION_CHECK = new PermissionCheck.Require(Permissions.COMMANDS_GAMEMASTER);
+        PERMISSION_CHECK = (commandSourceStack) -> commandSourceStack.hasPermission(2);;
     }
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext, Commands.CommandSelection selection) {
@@ -46,7 +46,7 @@ public class SmartRedstoneWireConnectionCommand {
     private static LiteralArgumentBuilder<CommandSourceStack> buildSetCommand() {
         // /logic_gate smartRedstoneWireConnection set [true|false|default]
         return literal("set")
-            .requires(Commands.hasPermission(PERMISSION_CHECK))
+            .requires(PERMISSION_CHECK)
             .then(argument("enabled", BoolArgumentType.bool())
                 .executes((CommandContext<CommandSourceStack> context) -> {
                     executeSetCommand(context, BoolArgumentType.getBool(context, "enabled"));

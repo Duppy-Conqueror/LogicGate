@@ -16,7 +16,7 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
 public class YACLCompat {
     public static void register(ModContainer container) {
-        container.registerExtensionPoint(IConfigScreenFactory.class, (_, parent) -> makeScreen(parent));
+        container.registerExtensionPoint(IConfigScreenFactory.class, (modContainer, parent) -> makeScreen(parent));
     }
 
     public static Screen makeScreen(Screen parent) {
