@@ -2,7 +2,7 @@ package net.duppy_conqueror.logic_gate.item;
 
 import net.duppy_conqueror.logic_gate.LogicGate;
 import net.duppy_conqueror.logic_gate.block.ModBlocks;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -22,7 +22,7 @@ public class ModItems {
         ITEMS.register(modEventBus);
     }
 
-    private static DeferredItem<Item> registerBlockItem(final Identifier blockItemId, final DeferredBlock<Block> block, final BiFunction<Block, Item.Properties, Item> itemFactory, final Item.Properties itemProperties) {
-        return ITEMS.registerItem(blockItemId.getPath(), p -> itemFactory.apply(block.get(), p), itemProperties::useBlockDescriptionPrefix);
+    private static DeferredItem<Item> registerBlockItem(final ResourceLocation blockItemId, final DeferredBlock<Block> block, final BiFunction<Block, Item.Properties, Item> itemFactory, final Item.Properties itemProperties) {
+        return ITEMS.registerItem(blockItemId.getPath(), p -> itemFactory.apply(block.get(), p), itemProperties);
     }
 }

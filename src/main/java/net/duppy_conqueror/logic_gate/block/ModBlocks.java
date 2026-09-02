@@ -1,7 +1,7 @@
 package net.duppy_conqueror.logic_gate.block;
 
 import net.duppy_conqueror.logic_gate.LogicGate;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -15,7 +15,7 @@ import java.util.function.Function;
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(LogicGate.MOD_ID);
 
-    public static final Identifier LOGIC_GATE_BLOCK_ID = Identifier.fromNamespaceAndPath(LogicGate.MOD_ID, "logic_gate");
+    public static final ResourceLocation LOGIC_GATE_BLOCK_ID = ResourceLocation.fromNamespaceAndPath(LogicGate.MOD_ID, "logic_gate");
 
     public static final DeferredBlock<Block> LOGIC_GATE = registerBlock(
         LOGIC_GATE_BLOCK_ID,
@@ -27,7 +27,7 @@ public class ModBlocks {
         BLOCKS.register(modEventBus);
     }
 
-    private static DeferredBlock<Block> registerBlock(Identifier blockId, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties properties) {
-        return BLOCKS.registerBlock(blockId.getPath(), blockFactory, () -> properties);
+    private static DeferredBlock<Block> registerBlock(ResourceLocation blockId, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties properties) {
+        return BLOCKS.registerBlock(blockId.getPath(), blockFactory, properties);
     }
 }
