@@ -1,7 +1,6 @@
 package net.duppy_conqueror.logic_gate.block.enums;
 
 import net.minecraft.util.StringRepresentable;
-import org.jspecify.annotations.NonNull;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -57,7 +56,7 @@ public enum LogicGateMode implements StringRepresentable {
     }
 
     @Override
-    public @NonNull String getSerializedName() {
+    public String getSerializedName() {
         return this.name;
     }
 }
