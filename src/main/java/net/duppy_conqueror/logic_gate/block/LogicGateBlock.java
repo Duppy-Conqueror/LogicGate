@@ -6,6 +6,7 @@ import net.duppy_conqueror.logic_gate.config.ModConfig;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.WireConnection;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -156,5 +157,40 @@ public class LogicGateBlock extends AbstractRedstoneGateBlock {
             }
         }
         world.setBlockState(pos, newState, Block.NOTIFY_LISTENERS);
+    }
+
+    @Override
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+        // Direction from the center towards the back input
+        final Direction direction = state.get(FACING);
+
+        // Based on block center
+        final double x = pos.getX() + 0.5;
+        final double z = pos.getZ() + 0.5;
+
+        // Particle y-level offset: [0.2, 0.4]
+        final double y = pos.getY() + 0.3 + (random.nextDouble() - 0.5) * 0.2;
+        double epsilon = (random.nextDouble() - 0.5) / 16.0;
+
+        if (state.get(POWERED) && random.nextBoolean()) {
+            double xo = 0.25 * direction.getOpposite().getOffsetX() + epsilon;
+            double zo = 0.25 * direction.getOpposite().getOffsetZ() + epsilon;
+            world.addParticle(DustParticleEffect.DEFAULT, x + xo, y, z + zo, 0.0, 0.0, 0.0);
+        }
+        if (state.get(BACK_POWERED) && random.nextBoolean()) {
+            double xo = 0.25 * direction.getOffsetX() + epsilon;
+            double zo = 0.25 * direction.getOffsetZ() + epsilon;
+            world.addParticle(DustParticleEffect.DEFAULT, x + xo, y, z + zo, 0.0, 0.0, 0.0);
+        }
+        if (state.get(LEFT_POWERED) && random.nextBoolean()) {
+            double xo = 0.25 * direction.rotateYClockwise().getOffsetX() + epsilon;
+            double zo = 0.25 * direction.rotateYClockwise().getOffsetZ() + epsilon;
+            world.addParticle(DustParticleEffect.DEFAULT, x + xo, y, z + zo, 0.0, 0.0, 0.0);
+        }
+        if (state.get(RIGHT_POWERED) && random.nextBoolean()) {
+            double xo = 0.25 * direction.rotateYCounterclockwise().getOffsetX() + epsilon;
+            double zo = 0.25 * direction.rotateYCounterclockwise().getOffsetZ() + epsilon;
+            world.addParticle(DustParticleEffect.DEFAULT, x + xo, y, z + zo, 0.0, 0.0, 0.0);
+        }
     }
 }
