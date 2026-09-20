@@ -16,7 +16,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 
-public class ModItemGroups {
+public class ModCreativeModeTabs {
     public static final ResourceKey<CreativeModeTab> LOGIC_GATE_ITEM_GROUP_KEY;
 
     public static final CreativeModeTab LOGIC_GATE_ITEM_GROUP;
@@ -27,6 +27,9 @@ public class ModItemGroups {
         LOGIC_GATE_ITEM_GROUP = FabricCreativeModeTab.builder()
             .title(Component.translatable("itemgroup.logic_gate"))
             .icon(() -> new ItemStack(ModBlocks.LOGIC_GATE))
+            .displayItems((_, output) -> {
+                output.accept(ModBlocks.LOGIC_GATE);
+            })
             .build();
 
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, LOGIC_GATE_ITEM_GROUP_KEY, LOGIC_GATE_ITEM_GROUP);
@@ -34,13 +37,6 @@ public class ModItemGroups {
 
 
     public static void registerItemGroups() {
-        LogicGateMod.LOGGER.info("Registering item groups for " + LogicGateMod.MOD_ID);
-
-        CreativeModeTabEvents.modifyOutputEvent(LOGIC_GATE_ITEM_GROUP_KEY)
-            .register((entries) -> {
-                entries.accept(ModBlocks.LOGIC_GATE);
-            });
-
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.REDSTONE_BLOCKS)
             .register((output) -> {
                 output.accept(ModBlocks.LOGIC_GATE);
