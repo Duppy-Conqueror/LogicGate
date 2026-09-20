@@ -1,6 +1,5 @@
 package net.duppy_conqueror.logic_gate.block;
 
-import com.mojang.serialization.MapCodec;
 import net.duppy_conqueror.logic_gate.block.enums.LogicGateMode;
 import net.duppy_conqueror.logic_gate.config.ModConfig;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -13,7 +12,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.RedStoneWireBlock;
+import net.minecraft.world.level.block.RedstoneWireBlock;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.RedstoneSide;
 import net.minecraft.world.phys.BlockHitResult;
@@ -26,14 +25,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.ticks.TickPriority;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
 public class LogicGateBlock extends DiodeBlock {
-    public static final MapCodec<LogicGateBlock> CODEC = simpleCodec(LogicGateBlock::new);
-
     public static final EnumProperty<LogicGateMode> MODE = EnumProperty.create("mode", LogicGateMode.class);
 
     public static final BooleanProperty BACK_POWERED = BooleanProperty.create("back_powered");
@@ -51,11 +49,6 @@ public class LogicGateBlock extends DiodeBlock {
                 .setValue(LEFT_POWERED, false)
                 .setValue(RIGHT_POWERED, false)
         );
-    }
-
-    @Override
-    protected MapCodec<LogicGateBlock> codec() {
-        return CODEC;
     }
 
     @Override
@@ -155,8 +148,8 @@ public class LogicGateBlock extends DiodeBlock {
                 if (neighbourBlockState.is(Blocks.REDSTONE_WIRE)) {
                     // Get the property of the redstone wire connection that is in the direction towards the logic gate block
                     // The WireConnection property should have the value "side"
-                    final RedstoneSide wireConnection = neighbourBlockState.getValue(RedStoneWireBlock.PROPERTY_BY_DIRECTION.get(direction.getOpposite()));
-                    final boolean isPoweredByWire = wireConnection.equals(RedstoneSide.SIDE) && neighbourBlockState.getValue(RedStoneWireBlock.POWER) > 0;
+                    final RedstoneSide wireConnection = neighbourBlockState.getValue(RedstoneWireBlock.PROPERTY_BY_DIRECTION.get(direction.getOpposite()));
+                    final boolean isPoweredByWire = wireConnection.equals(RedstoneSide.SIDE) && neighbourBlockState.getValue(RedstoneWireBlock.POWER) > 0;
 
                     // If the redstone wire "connects" to the logic gate, check whether the redstone power is positive as well
                     newState = newState.setValue(property, isPoweredByWire);
@@ -166,6 +159,20 @@ public class LogicGateBlock extends DiodeBlock {
             }
         }
         level.setBlock(pos, newState, Block.UPDATE_CLIENTS);
+    }
+
+    @Override
+    protected boolean shouldRedstoneWireConnectTo(final BlockState state, final BlockGetter level, final BlockPos pos, final @Nullable Direction direction) {
+        final Direction facing = state.getValue(FACING);
+        final LogicGateMode mode = state.getValue(MODE);
+        if (ModConfig.SMART_REDSTONE_WIRE_CONNECTION.get()) {
+            if (mode.isSingleInput()) {
+                return facing == direction || facing.getOpposite() == direction;
+            } else {
+                return facing == direction || facing.getClockWise() == direction || facing.getCounterClockWise() == direction;
+            }
+        }
+        return true;
     }
 
     @Override
