@@ -21,13 +21,13 @@ public class ModBlocks {
     static {
         LOGIC_GATE = registerBlock("logic_gate",
             LogicGateBlock::new,
-            BlockBehaviour.Properties.of().instabreak().sound(SoundType.STONE).pushReaction(PushReaction.DESTROY),
+            BlockBehaviour.Properties.of().instabreak().sound(SoundType.STONE).pushReaction(PushReaction.POPPED),
             true
         );
     }
 
-    public static void registerBlocks() {
-        LogicGateMod.LOGGER.info("Registering blocks for " + LogicGateMod.MOD_ID);
+    public static void init() {
+
     }
 
     private static Block registerBlock(String name, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties properties, boolean registerItem) {
