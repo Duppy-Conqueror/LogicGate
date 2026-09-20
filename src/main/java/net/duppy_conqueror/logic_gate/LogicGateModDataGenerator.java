@@ -10,7 +10,7 @@ public class LogicGateModDataGenerator implements DataGeneratorEntrypoint {
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator dataGenerator) {
 		FabricDataGenerator.Pack pack = dataGenerator.createPack();
-		pack.addProvider(ModRecipeProvider::new);
+		pack.addProvider(ModRecipeProvider.ModRecipeProviderRunner::new);
 		pack.addProvider(ModModelProvider::new);
 		pack.addProvider(ModBlockLootTableProvider::new);
 	}
