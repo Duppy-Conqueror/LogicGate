@@ -3,7 +3,7 @@
 	"package": "net.duppy_conqueror.logic_gate.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"mixins": [
-		"IBlockExtensionMixin"
+
 	],
 	"injectors": {
 		"defaultRequire": 1
