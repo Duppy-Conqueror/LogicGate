@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "logic_gate:logic_gate"
+        "recipes": "logic_gate:logic_gate"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
