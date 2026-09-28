@@ -20,7 +20,7 @@ public class ModBlocks {
     public static final DeferredBlock<Block> LOGIC_GATE = registerBlock(
         LOGIC_GATE_BLOCK_ID,
         LogicGateBlock::new,
-        BlockBehaviour.Properties.of().instabreak().sound(SoundType.STONE).pushReaction(PushReaction.DESTROY)
+        BlockBehaviour.Properties.of().instabreak().sound(SoundType.STONE).pushReaction(PushReaction.POPPED)
     );
 
     public static void init(IEventBus modEventBus) {
