@@ -49,9 +49,22 @@
   "command.logic_gate.gateDelay.set.feedback.imply": "已更新「蘊含」閘嘅傳播延遲時間至 %d 刻",
   "command.logic_gate.gateDelay.set.feedback.nimply": "已更新「非蘊含」閘嘅傳播延遲時間至 %d 刻",
 
-  "command.logic_gate.smartRedstoneConnection.query.feedback.false": "智慧紅石線連接未啟用",
-  "command.logic_gate.smartRedstoneConnection.query.feedback.true": "智慧紅石線連接啟用中",
+  "command.logic_gate.smartRedstoneWireConnection.query.feedback.false": "智慧紅石線連接未啟用",
+  "command.logic_gate.smartRedstoneWireConnection.query.feedback.true": "智慧紅石線連接啟用中",
 
-  "command.logic_gate.smartRedstoneConnection.set.feedback.false": "已取消智慧紅石線連接。\n請更新現有嘅紅石線。",
-  "command.logic_gate.smartRedstoneConnection.set.feedback.true": "已啟用智慧紅石線連接。\n請更新現有嘅紅石線。"
+  "command.logic_gate.smartRedstoneWireConnection.set.feedback.false": "已取消智慧紅石線連接。\n請更新現有嘅紅石線。",
+  "command.logic_gate.smartRedstoneWireConnection.set.feedback.true": "已啟用智慧紅石線連接。\n請更新現有嘅紅石線。",
+
+  "logic_gate.jade.text.logic_gate.mode": "模式： %s",
+  "logic_gate.jade.text.logic_gate.mode.buffer": "是",
+  "logic_gate.jade.text.logic_gate.mode.not": "非",
+  "logic_gate.jade.text.logic_gate.mode.or": "或",
+  "logic_gate.jade.text.logic_gate.mode.and": "與",
+  "logic_gate.jade.text.logic_gate.mode.xor": "互斥或",
+  "logic_gate.jade.text.logic_gate.mode.nor": "非或",
+  "logic_gate.jade.text.logic_gate.mode.nand": "非與",
+  "logic_gate.jade.text.logic_gate.mode.imply": "蘊含",
+  "logic_gate.jade.text.logic_gate.mode.nimply": "非蘊含",
+
+  "config.jade.plugin_logic_gate.logic_gate": "邏輯閘模式"
 }
