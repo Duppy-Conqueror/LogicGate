@@ -53,5 +53,18 @@
   "command.logic_gate.smartRedstoneWireConnection.query.feedback.true": "Smart redstone connection is currently enabled",
 
   "command.logic_gate.smartRedstoneWireConnection.set.feedback.false": "Disabled smart redstone connection.\nPlease update existing redstone wires.",
-  "command.logic_gate.smartRedstoneWireConnection.set.feedback.true": "Enabled smart redstone connection.\nPlease update existing redstone wires."
+  "command.logic_gate.smartRedstoneWireConnection.set.feedback.true": "Enabled smart redstone connection.\nPlease update existing redstone wires.",
+
+  "logic_gate.jade.text.logic_gate.mode": "Mode: %s",
+  "logic_gate.jade.text.logic_gate.mode.buffer": "BUFFER",
+  "logic_gate.jade.text.logic_gate.mode.not": "NOT",
+  "logic_gate.jade.text.logic_gate.mode.or": "OR",
+  "logic_gate.jade.text.logic_gate.mode.and": "AND",
+  "logic_gate.jade.text.logic_gate.mode.xor": "XOR",
+  "logic_gate.jade.text.logic_gate.mode.nor": "NOR",
+  "logic_gate.jade.text.logic_gate.mode.nand": "NAND",
+  "logic_gate.jade.text.logic_gate.mode.imply": "IMPLY",
+  "logic_gate.jade.text.logic_gate.mode.nimply": "NIMPLY",
+
+  "config.jade.plugin_logic_gate.logic_gate": "Logic Mode"
 }
