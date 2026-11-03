@@ -53,5 +53,18 @@
   "command.logic_gate.smartRedstoneWireConnection.query.feedback.true": "智能红石线连接启用中",
 
   "command.logic_gate.smartRedstoneWireConnection.set.feedback.false": "已取消启用智能红石线连接。\n请更新现有的红石线。",
-  "command.logic_gate.smartRedstoneWireConnection.set.feedback.true": "已启用智能红石线连接。\n请更新现有的红石线。"
+  "command.logic_gate.smartRedstoneWireConnection.set.feedback.true": "已启用智能红石线连接。\n请更新现有的红石线。",
+
+  "logic_gate.jade.text.logic_gate.mode": "模式： %s",
+  "logic_gate.jade.text.logic_gate.mode.buffer": "是",
+  "logic_gate.jade.text.logic_gate.mode.not": "非",
+  "logic_gate.jade.text.logic_gate.mode.or": "或",
+  "logic_gate.jade.text.logic_gate.mode.and": "与",
+  "logic_gate.jade.text.logic_gate.mode.xor": "互斥或",
+  "logic_gate.jade.text.logic_gate.mode.nor": "非或",
+  "logic_gate.jade.text.logic_gate.mode.nand": "非与",
+  "logic_gate.jade.text.logic_gate.mode.imply": "蕴含",
+  "logic_gate.jade.text.logic_gate.mode.nimply": "非蕴含",
+
+  "config.jade.plugin_logic_gate.logic_gate": "逻辑闸模式"
 }
