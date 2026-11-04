@@ -22,7 +22,7 @@ public class LogicGate {
 	public static final Logger LOGGER = LogUtils.getLogger();
 
 	public LogicGate(IEventBus modEventBus, ModContainer modContainer) {
-		modContainer.registerConfig(net.neoforged.fml.config.ModConfig.Type.COMMON, ModConfig.CONFIG_HOLDER);
+		modContainer.registerConfig(net.neoforged.fml.config.ModConfig.Type.LOCAL, ModConfig.CONFIG_HOLDER);
 		NeoForge.EVENT_BUS.register(ModCommands.class);
 		ModItems.init(modEventBus);
 		ModBlocks.init(modEventBus);
