@@ -121,34 +121,52 @@ repositories {
 		name 'Xander Maven'
 		url 'https://maven.isxander.dev/releases'
 	}
+
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth"
+				url = "https://api.modrinth.com/maven"
+			}
+		}
+		// forRepositories(fg.repository) // Uncomment when using ForgeGradle
+		filter {
+			includeGroup "maven.modrinth"
+		}
+	}
 }
 
 dependencies {
 	compileOnly("me.shedaniel.cloth:cloth-config-neoforge:${project.cloth_config_api_version}")
 	compileOnly("dev.isxander:yet-another-config-lib:${project.yacl_version}")
+	compileOnly("maven.modrinth:jade:${project.jade_version}")
 
 	// We add the full version to localRuntime, not runtimeOnly, so that we do not publish a dependency on it
 //	localRuntime("me.shedaniel.cloth:cloth-config-neoforge:${project.cloth_config_api_version}")
 //	localRuntime("dev.isxander:yet-another-config-lib:${project.yacl_version}")
+//	localRuntime("maven.modrinth:jade:${project.jade_version}")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
 // A missing property will result in an error. Properties are expanded using ${} Groovy notation.
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
 	var replaceProperties = [
-		minecraft_version      : minecraft_version,
-		minecraft_min_version  : minecraft_min_version,
-		minecraft_max_version  : minecraft_max_version,
-		minecraft_version_range: minecraft_version_range,
-		mod_id                 : mod_id,
-		mod_name               : mod_name,
-		mod_version            : version,
-		mod_license            : mod_license,
-		mod_authors            : mod_authors,
-		mod_description        : mod_description,
-		mod_github			   : mod_github,
-		mod_issues			   : mod_issues,
-		neoforge_version       : neoforge_version,
+		minecraft_version       : minecraft_version,
+		minecraft_min_version   : minecraft_min_version,
+		minecraft_max_version   : minecraft_max_version,
+		minecraft_version_range : minecraft_version_range,
+		mod_id                  : mod_id,
+		mod_name                : mod_name,
+		mod_version             : version,
+		mod_license             : mod_license,
+		mod_authors             : mod_authors,
+		mod_description         : mod_description,
+		mod_github			    : mod_github,
+		mod_issues			    : mod_issues,
+		neoforge_version        : neoforge_version,
+		cloth_config_api_version: cloth_config_api_version,
+		yacl_version            : yacl_version,
+		jade_version            : jade_version
 	]
 	inputs.properties replaceProperties
 
