@@ -148,7 +148,7 @@ dependencies {
 	// We add the full version to localRuntime, not runtimeOnly, so that we do not publish a dependency on it
 //	localRuntime("me.shedaniel.cloth:cloth-config-neoforge:${project.cloth_config_api_version}")
 //	localRuntime("dev.isxander:yet-another-config-lib:${project.yacl_version}")
-	//	localRuntime("maven.modrinth:jade:${project.jade_version}")
+//	localRuntime("maven.modrinth:jade:${project.jade_version}")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
@@ -159,6 +159,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
 		minecraft_min_version   : minecraft_min_version,
 		minecraft_max_version   : minecraft_max_version,
 		minecraft_version_range : minecraft_version_range,
+		loader_version_range    : loader_version_range,
 		mod_id                  : mod_id,
 		mod_name                : mod_name,
 		mod_version             : version,
