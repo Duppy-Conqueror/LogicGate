@@ -23,6 +23,9 @@
 		],
 		"modmenu": [
 			"net.duppy_conqueror.logic_gate.integration.modmenu.ModMenuCompat"
+		],
+		"jade": [
+			"net.duppy_conqueror.logic_gate.integration.jade.JadePlugin"
 		]
 	},
 	"mixins": [
